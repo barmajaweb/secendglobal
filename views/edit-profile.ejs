@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Vira Decoration</title>
+    <style>
+        .logo {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1c2b6c;
+  cursor: pointer;
+  animation: logoEntrance 0.8s ease-out forwards;
+  transition: transform 0.4s ease, color 0.3s ease;
+
+}
+.logo img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+.logo img:hover {
+  transform: scale(1.1);
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+        }
+
+        .nav-links a:hover {
+            background-color: var(--light);
+            color: #014537;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--light);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background-color: var(--light);
+            color: var(--secondary);
+        }
+
+        .sidebar-nav i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .page-title {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .page-title h1 {
+            color: var(--primary);
+        }
+
+        /* Formulaire de modification */
+        .profile-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: var(--accent);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .error {
+            color: var(--accent);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .success {
+            color: var(--success);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert::before {
+            font-size: 1.2rem;
+        }
+
+        .alert-success::before {
+            content: '✅';
+        }
+
+        .alert-error::before {
+            content: '⚠️';
+        }
+
+        .btn-submit {
+            padding: 1rem 2rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Section ID utilisateur */
+        .user-id-section {
+            background-color: #f8f9fa;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--warning);
+        }
+
+        .user-id-display {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .user-id-code {
+            flex: 1;
+            background: white;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            border: 1px solid #ddd;
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--light);
+            border: 1px solid var(--gray);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background-color: #dfe6e9;
+        }
+
+        .copy-btn.copied {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        /* Informations importantes */
+        .important-info {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .important-info p {
+            margin: 0;
+            color: #856404;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #014537;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Avatar upload */
+        .avatar-upload {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--light);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--secondary);
+            border: 3px solid white;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar-preview input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-hint {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><img src="/uploads/logo.png" alt=""></div>
+                <div class="nav-links">
+                    <a href="/">Accueil</a>
+                    <a href="/dashboard">Tableau de bord</a>
+                    <a href="/add-product">Ajouter Produit</a>
+                    <a href="/logout" class="btn btn-danger">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <div class="container">
+        <div class="dashboard">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="user-info">
+                    <div class="user-avatar" id="avatarPreview">
+                        <%= user.storeName.charAt(0).toUpperCase() %>
+                    </div>
+                    <div class="user-name"><%= user.storeName %></div>
+                </div>
+                
+                <nav>
+                    <ul class="sidebar-nav">
+                        <li><a href="/dashboard"><i>📊</i> Tableau de bord</a></li>
+                        <li><a href="/add-product"><i>➕</i> Ajouter produit</a></li>
+                        
+                        <li><a href="/edit-profile" class="active"><i>👤</i> Modifier profil</a></li>
+                       
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="page-title">
+                    <h1>Modifier le profil</h1>
+                    <p>Mettez à jour vos informations personnelles</p>
+                </div>
+
+                <!-- Messages -->
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <% if (success) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                <% } %>
+
+              
+
+                <!-- Formulaire -->
+                <form action="/edit-profile" method="POST" class="profile-form" id="profileForm">
+    <div class="form-row">
+        <div class="form-group">
+            <label for="fullName" class="form-label required">Nom complet</label>
+            <input type="text" id="fullName" name="fullName" class="form-control" 
+                   value="<%= user.fullName %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="storeName" class="form-label required">Nom du magasin</label>
+            <input type="text" id="storeName" name="storeName" class="form-control" 
+                   value="<%= user.storeName %>" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="storeAddress" class="form-label required">Adresse du magasin</label>
+            <input type="text" id="storeAddress" name="storeAddress" class="form-control" 
+                   value="<%= user.storeAddress %>" 
+                   placeholder="Ex: Rue Mohamed V, N°123" required>
+        </div>
+
+        <div class="form-group">
+            <label for="storeLocation" class="form-label required">Ville</label>
+            <select id="storeLocation" name="storeLocation" class="select-control" required>
+                <option value="">Sélectionnez une ville</option>
+                <% moroccanCities.forEach(city => { %>
+                    <option value="<%= city %>" 
+                            <%= user.storeLocation === city ? 'selected' : '' %>>
+                        <%= city %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="storeDescription" class="form-label required">Description du magasin</label>
+            <textarea id="storeDescription" name="storeDescription" class="form-control" 
+                      rows="4" 
+                      placeholder="Décrivez votre magasin, vos produits, services, etc." 
+                      maxlength="500"
+                      required><%= user.storeDescription %></textarea>
+            <small class="hint">Maximum 500 caractères</small>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="deliveryArea" class="form-label required">Zone de livraison</label>
+            <select id="deliveryArea" name="deliveryArea" class="select-control" required>
+                <option value="ville_seule" <%= user.deliveryArea === 'ville_seule' ? 'selected' : '' %>>
+                    🏙️ Livraison uniquement dans la ville
+                </option>
+                <option value="region_seule" <%= user.deliveryArea === 'region_seule' ? 'selected' : '' %>>
+                    🗺️ Livraison uniquement dans la région
+                </option>
+                <option value="toute_maroc" <%= user.deliveryArea === 'toute_maroc' ? 'selected' : '' %>>
+                    ✅ Livraison dans tout le Maroc
+                </option>
+            </select>
+            <small class="hint">
+                <% if (user.deliveryArea === 'ville_seule') { %>
+                    Actuellement: Livraison uniquement dans <%= user.storeLocation %>
+                <% } else if (user.deliveryArea === 'region_seule') { %>
+                    Actuellement: Livraison dans toute la région de <%= user.storeLocation %>
+                <% } else { %>
+                    Actuellement: Livraison dans tout le Maroc
+                <% } %>
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="phone" class="form-label required">Numéro de téléphone</label>
+            <input type="tel" id="phone" name="phone" class="form-control" 
+                   value="<%= user.phone %>" 
+                   pattern="[0-9]{10}" 
+                   placeholder="Ex: 0612345678" required>
+            <small class="hint">Format: 10 chiffres</small>
+        </div>
+    </div>
+
+    <!-- Informations supplémentaires -->
+    <div class="important-info">
+        <p><strong>Note :</strong> La modification du nom du magasin mettra à jour automatiquement le nom du vendeur sur tous vos produits.</p>
+        <p><strong>Zone de livraison :</strong> Cette information sera visible par les clients lors de l'achat.</p>
+        <p><strong>Description :</strong> Aide les clients à mieux comprendre votre activité.</p>
+    </div>
+
+    <button type="submit" class="btn-submit" id="submitBtn">
+        Enregistrer les modifications
+    </button>
+</form>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // تحديث العداد لوصف المتجر
+    const descTextarea = document.getElementById('storeDescription');
+    const counter = document.createElement('small');
+    counter.className = 'char-counter';
+    counter.style.display = 'block';
+    counter.style.textAlign = 'right';
+    counter.style.marginTop = '5px';
+    counter.style.color = 'var(--gray)';
+    descTextarea.parentNode.appendChild(counter);
+    
+    function updateCounter() {
+        const length = descTextarea.value.length;
+        counter.textContent = `${length}/500 caractères`;
+        counter.style.color = length > 450 ? 'var(--accent)' : 'var(--gray)';
+    }
+    
+    descTextarea.addEventListener('input', updateCounter);
+    updateCounter();
+    
+    // عرض معلومات المنطقة حسب الاختيار
+    const deliverySelect = document.getElementById('deliveryArea');
+    const citySelect = document.getElementById('storeLocation');
+    
+    function updateDeliveryInfo() {
+        const selectedArea = deliverySelect.value;
+        const selectedCity = citySelect.value;
+        
+        let info = '';
+        if (selectedArea === 'ville_seule' && selectedCity) {
+            info = `Livraison uniquement dans ${selectedCity}`;
+        } else if (selectedArea === 'region_seule' && selectedCity) {
+            info = `Livraison dans toute la région de ${selectedCity}`;
+        } else if (selectedArea === 'toute_maroc') {
+            info = 'Livraison dans tout le Maroc';
+        }
+        
+        const infoElement = deliverySelect.parentNode.querySelector('.hint');
+        if (infoElement) {
+            infoElement.textContent = info;
+        }
+    }
+    
+    deliverySelect.addEventListener('change', updateDeliveryInfo);
+    citySelect.addEventListener('change', updateDeliveryInfo);
+    updateDeliveryInfo();
+});
+</script>
+
+                <!-- Section ID utilisateur -->
+                <div class="user-id-section">
+                    <h3>Votre ID utilisateur</h3>
+                    <p style="margin: 0.5rem 0; color: var(--gray);">
+                        Cet identifiant unique est nécessaire pour vous connecter à votre compte.
+                        Conservez-le précieusement et ne le partagez pas.
+                    </p>
+                    <div class="user-id-display">
+                        <div class="user-id-code" id="userIdText">
+                            <%= user.userId %>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copyUserId()" id="copyBtn">
+                            📋 Copier
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Informations de sécurité -->
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: var(--radius);">
+                    <h3 style="margin-bottom: 1rem;">Sécurité du compte</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Dernière connexion :</strong><br>
+                            <span id="lastLogin">Aujourd'hui</span>
+                        </div>
+                        <div>
+                            <strong>Compte créé le :</strong><br>
+                            <span><%= new Date(user.createdAt).toLocaleDateString('fr-FR') %></span>
+                        </div>
+                        <div>
+                            <strong>Statut :</strong><br>
+                            <span style="color: var(--success); font-weight: 500;">Actif</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                &copy; 2025 veradecoration. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    <script>
+        // Afficher une notification
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 300);
+            }, 3000);
+        }
+
+        // Copier l'ID utilisateur
+        function copyUserId() {
+            const userId = document.getElementById('userIdText').textContent;
+            const copyBtn = document.getElementById('copyBtn');
+            
+            navigator.clipboard.writeText(userId).then(() => {
+                copyBtn.textContent = '✅ Copié';
+                copyBtn.classList.add('copied');
+                showNotification('ID utilisateur copié dans le presse-papier', 'success');
+                
+                setTimeout(() => {
+                    copyBtn.textContent = '📋 Copier';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                showNotification('Erreur lors de la copie', 'error');
+                console.error('Erreur de copie:', err);
+            });
+        }
+
+        // Gestion de l'avatar
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarPreview = document.getElementById('avatarPreview');
+        const avatarText = document.getElementById('avatarText');
+        
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Vérifier la taille (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    showNotification('L\'image est trop volumineuse (max 2MB)', 'error');
+                    return;
+                }
+                
+                // Vérifier le type
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Veuillez sélectionner une image', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Mettre à jour l'aperçu
+                    avatarText.style.display = 'none';
+                    avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+                    avatarPreview.style.background = 'none';
+                    
+                    showNotification('Avatar mis à jour (simulation)', 'success');
+                    
+                    // Ici, dans une vraie application, vous enverriez l'image au serveur
+                    // uploadAvatar(file);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Fonction pour uploader l'avatar (simulation)
+        function uploadAvatar(file) {
+            // Simuler l'upload
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Upload en cours...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                showNotification('Avatar mis à jour avec succès', 'success');
+            }, 1500);
+        }
+
+        // Validation du formulaire
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^[0-9]{10}$/;
+            
+            if (!phoneRegex.test(phone)) {
+                e.preventDefault();
+                showNotification('Numéro de téléphone invalide. 10 chiffres requis.', 'error');
+                return false;
+            }
+            
+            // Désactiver le bouton pour éviter les doubles soumissions
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enregistrement...';
+            
+            return true;
+        });
+
+        // Ville personnalisée
+        document.getElementById('storeLocation').addEventListener('change', function(e) {
+            if (e.target.value === 'Autre') {
+                const customCity = prompt('Veuillez entrer le nom de votre ville:');
+                if (customCity && customCity.trim() !== '') {
+                    // Créer une nouvelle option
+                    const option = document.createElement('option');
+                    option.value = customCity.trim();
+                    option.textContent = customCity.trim();
+                    e.target.appendChild(option);
+                    e.target.value = customCity.trim();
+                } else {
+                    e.target.value = '';
+                }
+            }
+        });
+
+        // Mettre à jour l'aperçu du nom du magasin
+        document.getElementById('storeName').addEventListener('input', function(e) {
+            const storeName = e.target.value;
+            const avatarText = document.getElementById('avatarText');
+            
+            if (storeName.length > 0) {
+                avatarText.textContent = storeName.charAt(0).toUpperCase();
+            } else {
+                avatarText.textContent = '?';
+            }
+        });
+
+        // Simulation de la dernière connexion
+        document.addEventListener('DOMContentLoaded', function() {
+            //('Page de modification de profil chargée');
+            
+            // Simuler la dernière connexion
+            const lastLogin = document.getElementById('lastLogin');
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            lastLogin.textContent = now.toLocaleDateString('fr-FR', options);
+            
+            // Animation d'entrée
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${index * 0.1}s`;
+                group.classList.add('fade-in');
+            });
+        });
+
+        // Confirmation avant de quitter si des modifications non sauvegardées
+        let formModified = false;
+        
+        document.getElementById('profileForm').addEventListener('input', function() {
+            formModified = true;
+        });
+        
+        window.addEventListener('beforeunload', function(e) {
+            if (formModified) {
+                e.preventDefault();
+                e.returnValue = 'Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter ?';
+            }
+        });
+        
+        // Réinitialiser le flag de modification après soumission
+        document.getElementById('profileForm').addEventListener('submit', function() {
+            formModified = false;
+        });
+    </script>
+</body>
+</html>

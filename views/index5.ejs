@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vira Decoration</title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .btn-secondary {
+            background-color: var(--light);
+            color: #C9A349;
+            border: 1px solid var(--gray);
+        }
+       #toggleBtn {
+  padding: 0.2rem 0.5rem;
+  margin-left: 5%;
+  border: 5px solid #C9A349;
+  cursor: pointer;
+  border-radius: 18px;
+  width: 20px;
+  font-weight: bolder;
+  margin-top: 10px;
+  background-color:#C9A349;
+  color:white ;
+  font-size: 10px;
+  transition: 0.7s;
+  padding-right: 3%;
+}
+#toggleBtn:hover {
+  transform: scale(1.05);
+}
+.plateforme span {
+  color:#C9A349 ;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bolder;
+  font-size: 20px;
+}
+    :root {
+            --primary: #004d40;
+            --secondary: #00695c;
+            --accent: #26a69a;
+            --bg-main: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-primary: #263238;
+            --text-secondary: #546e7a;
+            --radius: 16px;
+            --shadow: 0 10px 40px rgba(0, 77, 64, 0.15);
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+     .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 77, 64, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1300;
+            padding: 20px;
+        }
+
+        .overlay.show {
+            display: flex;
+        }
+
+        /* Modal Container */
+        .contact-modal {
+            width: 100%;
+            max-width: 900px;
+            border-radius: var(--radius);
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transform: translateY(-30px) scale(0.9);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .overlay.show .contact-modal {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        /* Left Section - Contact Details */
+       .contact-left {
+            padding: 40px 35px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 500px;
+            position: relative;
+            max-height: 100vh; 
+            overflow-y: auto;
+        }
+
+        /* Brand Section */
+        .brand {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 24px;
+            box-shadow: 0 8px 25px rgba(0, 77, 64, 0.2);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .brand .info .title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .brand .info .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Contact List */
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f8fffe, #e8f5f4);
+            border: 1px solid rgba(0, 77, 64, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideInRight 0.6s ease forwards;
+        }
+
+        .contact-item:nth-child(1) { animation-delay: 0.1s; }
+        .contact-item:nth-child(2) { animation-delay: 0.2s; }
+        .contact-item:nth-child(3) { animation-delay: 0.3s; }
+        .contact-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 77, 64, 0.15);
+            border-color: var(--accent);
+        }
+
+        .contact-item i {
+            font-size: 20px;
+            color: var(--primary);
+            width: 32px;
+            text-align: center;
+        }
+
+        .contact-item .meta {
+            flex: 1;
+            text-align: right;
+        }
+
+        .contact-item .meta .label {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .contact-item .meta .value {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .contact-item .meta .value a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contact-item .meta .value a:hover {
+            color: var(--accent);
+        }
+
+        /* Action Buttons */
+        .contact-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 77, 64, 0.3);
+        }
+
+        .action-btn i {
+            font-size: 16px;
+        }
+
+        /* Close Button */
+        .close-x {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            margin-left: 80%;
+            background: rgba(10, 134, 41, 0.9);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .close-x:hover {
+            transform: rotate(90deg) scale(1.1);
+           background: rgba(26, 79, 39, 0.9);
+        }
+
+        /* Working Hours */
+        .working-hours {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 16px;
+            background: rgba(0, 77, 64, 0.05);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Right Section - QR Code */
+        .contact-right {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .qr-title {
+            font-weight: 800;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .qr-wrap {
+            background: white;
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            animation: qrPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes qrPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .qr-wrap canvas,
+        .qr-wrap img {
+            width: 160px;
+            height: 160px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .qr-note {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+            max-width: 280px;
+        }
+
+        /* Social Actions */
+        .social-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .contact-modal {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+            }
+
+            .contact-right {
+                order: -1;
+                padding: 30px 25px;
+            }
+
+            .contact-left {
+                padding: 30px 25px;
+                min-height: auto;
+            }
+
+            .contact-floating {
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 16px;
+            }
+
+            .brand .logo {
+                width: 56px;
+                height: 56px;
+                font-size: 20px;
+            }
+
+            .brand .info .title {
+                font-size: 20px;
+            }
+
+            .qr-wrap canvas,
+            .qr-wrap img {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                justify-content: center;
+            }
+
+            .social-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .social-btn {
+                justify-content: center;
+            }
+        }
+   #suggestions{position:absolute;margin-left: 70%;  left: 0; right:0;top:100%;background:#fff;border-top:none;max-height:320px;max-width:30%; overflow:auto;z-index:50;border-radius:6px 6px 6px 6px}
+.s-item{display:flex;gap:10px;padding:8px;align-items:center;cursor:pointer;border-bottom:1px solid #eee}
+    .s-item img{width:54px;height:40px;object-fit:cover;border-radius:4px}
+    .s-meta{flex:1;text-align:right}
+    .s-name{font-weight:bold}
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  border: 5px solid #C9A349; 
+  padding: 20px;
+  background: #f6f3f1;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Logo Animation */
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #f6f3f1;
+  
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-top: 5px solid #C9A349; 
+  border-right: 5px solid #C9A349;
+   border-left: 5px solid #C9A349; 
+   height: 80px;
+}
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c2b6c;
+  cursor: pointer;
+  animation: logoEntrance 0.8s ease-out forwards;
+  transition: transform 0.4s ease, color 0.3s ease;
+
+}
+.logo img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+.logo:hover img {
+  transform: scale(1.1);
+}
+.logo:hover {
+  transform: scale(1.1) rotate(-2deg);
+  color: #b99b6b;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+nav a {
+  text-decoration: none;
+  color: #C9A349;
+  position: relative;
+  transition: color 0.3s ease;
+  font-weight: bolder;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 10px;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background-color: #b99b6b;
+  transition: width 0.3s ease;
+}
+nav a:hover {
+  color: #b99b6b;
+}
+nav a:hover::after {
+  width: 100%;
+}
+.nav-icons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.nav-icons input {
+  padding: 10px 25px;
+  border: 3px solid #b99b6b;
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  width: 42vh;
+  height: 40px;
+
+}
+.nav-icons input::placeholder {
+  color: #b99b6b;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+}
+
+.nav-icons input:focus {
+  outline: none;
+  border-color: #b99b6b;
+  box-shadow: 0 0 5px rgba(185, 155, 107, 0.5);
+}
+.btn-connexion {
+  background-color: #014537;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-connexion:hover {
+  background-color: #a48858;
+}
+    .carousel {
+      position: relative;
+      width: 90%;
+      height: 90vh;
+      overflow: hidden;
+      cursor: pointer;
+      margin-left: 10vh;
+      margin-top: 10vh;
+      border-radius: 15px;
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+   .size-6 {
+  width: 70px;
+  height: 70px;
+  stroke:  #C9A349; 
+  pointer-events: none; 
+}
+
+.arrow {
+  background-color: #014537;
+  opacity: 0.5;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  color:  #014537;
+}
+
+.arrow.left {
+  left: 20px;
+}
+
+.arrow.right {
+  right: 20px;
+}
+
+.arrow:hover {
+  transform: translateY(-50%) scale(1.07);
+}
+
+.button-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #014537;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 18px;
+  opacity: 0;
+  transition: 0.4s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.slide:hover .button-overlay,
+.button-overlay:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.filters {
+  width: 100%;
+  margin: 5vh auto;
+  padding: 0px;
+  background:transparent ;
+  margin-top: 13vh;
+  font-family: 'Poppins', sans-serif;
+  padding-left: 10%;
+}
+.filters h2 {
+  color: #014537;
+  margin-bottom: 20px;
+}
+.filters select, .filters input[type="checkbox"] {
+  margin-bottom: 15px;
+  margin-right: 20px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 3px solid #014537;
+  color: #014537;
+  font-weight: bolder;
+  
+  width: 10%;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  transition: all 0.5s ease;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: calc(33.33% - 20px);
+  overflow: hidden;
+  height: 350px;
+  opacity: 1;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.card.hidden {
+  opacity: 0;
+  
+  pointer-events: none;
+  position: absolute;
+  
+}
+
+
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+   
+    .card-img{
+      width: 100%;
+      height: 85%;
+      
+    }
+    .card img {
+      width: 100%;
+      height: 90%;
+      object-fit: cover;
+    }
+
+    .card-body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: space-between;
+      padding-left:5% ;
+      padding-right:5%;
+
+    }
+
+    .card-body h3 {
+      margin: 0;
+      color: #014537;
+      font-size: 18px;
+      margin-top: -16%;
+    }
+
+    .card-body .location {
+      color: #014537;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .card-body .vendeur {
+      color: #014537;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .card-body .price-btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .card-body .price {
+      color: #C9A349;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: -20%;
+    }
+
+    .card-body button {
+      background-color: #014537;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .card-body button:hover {
+      background-color: #a48858;
+    }
+ .filteres {
+  width: 100%;
+  margin: 5vh auto;
+  padding: 20px;
+  background-color: white;
+  opacity: 0;
+  border-left: 5px solid #C9A349;
+  border-right: 5px solid #C9A349;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  font-family: 'Poppins', sans-serif;
+  padding-left: 40px; /* استبدال 15vh بـ قيمة مناسبة */
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: all 0.4s ease-in-out;
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-top: 10.8vh;
+  padding-left: 10%;
+
+}
+.filteres.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.filteres h2 {
+  color: #014537;
+  margin-bottom: 20px;
+}
+.filteres label {
+  font-weight: bolder;
+  margin-right: 10px;
+  color: #014537;
+  font-size: 20px;
+}
+.filteres select, .filteres input[type="checkbox"] {
+  margin-bottom: 15px;
+  margin-right: 20px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 3px solid #014537;
+  color: #014537;
+  font-weight: bolder;
+  width: 10%;
+}
+
+  </style>
+</head>
+<body>
+  <div class="overlay" id="contactOverlay" aria-hidden="true">
+        <div class="contact-modal" role="dialog" aria-modal="true" id="contactDialog">
+            <div class="contact-left">
+                <button class="close-x" id="closeContact" aria-label="إغلاق النافذة">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div>
+                    <!-- Brand Section -->
+                    <div class="brand">
+                        <div class="logo"><img src="uploads/logo.png" alt=""></div>
+                        <div class="info">
+                            <div class="title">Vira Decoration</div>
+                            <div class="subtitle"></div>
+                        </div>
+                    </div>
+
+                    <!-- Contact List -->
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <i class="fa-solid fa-phone"></i>
+                            <div class="meta">
+                                <div class="label">Tel</div>
+                                <div class="value">
+                                    <a href="tel:+966501234567">+212 6 02 15 66 53</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div class="meta">
+                                <div class="label">Email</div>
+                                <div class="value">
+                                    <a href="mailto:Vira-Decoration@gmail.com">Vira-Decoration@gmail.com</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="meta">
+                                <div class="label">Address</div>
+                                <div class="value"></div>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <div class="meta">
+                                <div class="label">Whatsapp</div>
+                                <div class="value">
+                                    <a href="https://wa.me/212602156653">+212602156653</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="contact-actions">
+                        <a class="action-btn" href="https://wa.me/212602156653" target="_blank">
+                            <i class="fa-brands fa-whatsapp"></i>Whatsapp
+                        </a>
+                        <a class="action-btn" href="tel:+212602156653">
+                            <i class="fa-solid fa-phone"></i>Contactez-nous
+                        </a>
+                        <a class="action-btn" href="Vira-Decoration@gmail.com">
+                            <i class="fa-solid fa-envelope"></i>Envoyer un email
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Working Hours -->
+                <div class="working-hours">
+                    <i class="fa-solid fa-clock"></i>
+                     Horaires d'ouverture : Lundi - samedi :  (9h00 - 19h00)
+                </div>
+                <div class="plateforme">
+                <span>notre plateforme<button id="toggleBtn">+</button></span>
+                 <p id="message" style="display: none;color: #014537;">
+Notre plateforme est un espace en ligne qui regroupe et présente les dernières tendances et décorations disponibles dans les magasins de différentes villes marocaines, afin de faciliter la recherche et l’achat aussi bien pour les clients que pour les architectes d’intérieur.
+Nous ne vendons pas les produits : nous affichons uniquement ce qui est disponible en magasin, avec des informations utiles telles que la possibilité de livraison, les coordonnées et la localisation du magasin.
+Toutes les ventes et livraisons sont gérées directement par les magasins. Pour toute question ou problème lié au service ou à la livraison, veuillez contacter directement le magasin concerné.
+Si vous vous rendez dans un magasin et ne trouvez pas l’article recherché ou constatez une différence de prix, nous vous invitons à nous en informer afin de préserver la crédibilité et d’améliorer continuellement notre service.</p>
+                </div>
+
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="contact-right">
+                <div class="qr-section">
+                    <div class="qr-title">
+                        <i class="fa-solid fa-qrcode"></i>Scannez pour une communication rapide
+                    </div>
+                    <div class="qr-wrap" id="qrWrap">
+                        <canvas id="qrCanvas"></canvas>
+                    </div>
+                    <div class="qr-note">Scannez le code pour accéder directement  à notre Whatsapp 
+                    </div>
+                </div>
+
+                <div class="social-actions">
+                    <a class="social-btn" href="https://instagram.com/nelitedesign" target="_blank">
+                        <i class="fa-brands fa-instagram"></i> Instagram
+                    </a>
+                    <button class="social-btn" id="copyPhone">
+                        <i class="fa-solid fa-copy"></i> Copier le numéro de téléphone
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+ <header class="navbar">
+    <div class="logo"><img src="uploads/logo.png" alt=""></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="index2.html">MEUBLES</a></li>
+        <li><a href="index3.html">DÉCORATION</a></li>
+        <li><a href="index4.html">MAGASINS</a></li>
+        <li id="openContact"><a href="#">CONTACT</a></li>
+        <li><a href="/login" class="btn btn-secondary">CONNEXION</a></li>
+      </ul>
+    </nav>
+    <div class="nav-icons">
+      <input id="search-input" type="text" placeholder="Chercher..." />
+      <div id="suggestions"></div>
+      <button id="btn-search" class="btn-connexion">Connexion</button>
+    </div>
+  </header>
+  <div class="filters">
+    <select id="Article">
+    <option value="">Article</option>
+    <option value="Canapé">Canapé</option>
+    <option value="Fauteuil">Fauteuil</option>
+    <option value="Table Basse">Table Basse</option>
+    <option value="Bibliothèque">Bibliothèque</option>
+    <option value="Meuble TV">Meuble TV</option>
+    <option value="Buffet">Buffet</option>
+    <option value="Console">Console</option>
+    <option value="Table d’appoint">Table d’appoint</option>
+    <option value="Pouf">Pouf</option>
+    <option value="Banc">Banc</option>
+  </select>
+  <select id="city">
+    <option value="">ville</option>
+    <option value="Casablanca">Casablanca</option>
+    <option value="Rabat">Rabat</option>
+    <option value="Marrakech">Marrakech</option>
+    <option value="Fès">Fès</option>
+    <option value="Tanger">Tanger</option>
+  </select>
+
+  
+  <select id="style">
+    <option value="">style</option>
+    <option value="Français">Français</option>
+  <option value="Industriel">Industriel</option>
+  <option value="Luxe">Luxe</option>
+  <option value="Méditerranéen">Méditerranéen</option>
+  <option value="Moderne">Moderne</option>
+  <option value="Pour enfant">Pour enfant</option>
+  <option value="Rustique">Rustique</option>
+  <option value="Traditionnel">Traditionnel</option>
+  <option value="Tropical">Tropical</option>
+  <option value="Bohème">Bohème</option>
+  <option value="Contemporain">Contemporain</option>
+  <option value="Côtier">Côtier</option>
+  <option value="Cottagecore">Cottagecore</option>
+  <option value="Éclectique">Éclectique</option>
+  <option value="Extérieur">Extérieur</option>
+  </select>
+   
+  <select id="color">
+    <option value="">couleur</option>
+    <option value="noir">Noir</option>
+<option value="orange">Orange</option>
+<option value="peche">Pêche</option>
+<option value="rose">Rose</option>
+<option value="rouge">Rouge</option>
+<option value="transparent">Transparent</option>
+<option value="turquoise">Turquoise</option>
+<option value="vert">Vert</option>
+<option value="violet">Violet</option>
+<option value="metallique">Métallique</option>
+<option value="miroir">Miroir</option>
+<option value="multicolore">Multicolore</option>
+<option value="creme">Crème</option>
+<option value="cuivre">Cuivre</option>
+<option value="dore">Doré</option>
+<option value="gris">Gris</option>
+<option value="gris_fonce">Gris foncé</option>
+<option value="gris_pale">Gris pâle</option>
+<option value="jaune">Jaune</option>
+<option value="lime">Lime</option>
+<option value="marron">Marron</option>
+  </select>
+  
+  <select id="price">
+    <option value="">prix</option>
+    <option value="500">Moins de 500 DH</option>
+    <option value="1000">500 DH - 1000 DH</option>
+    <option value="3000">1000 DH - 3000 DH</option>
+    <option value="5000">Plus de 3000 DH</option>
+  </select>
+</div>
+
+<div class="carousel">
+  <% if (carouselProducts && carouselProducts.length > 0) { %>
+    <div class="slides" id="slides">
+      <% carouselProducts.forEach((product, index) => { %>
+        <div class="slide">
+          <img src="<%= product.mainImages %>" alt="<%= product.name %>" 
+               onerror="this.src='/uploads/default.jpg'">
+          <div class="button-overlay">
+            <h3><%= product.name %></h3>
+            <p><%= product.price %> DH - <%= product.city %></p>
+            <a href="/product/<%= product._id %>" style="color: white; text-decoration: underline;">
+              Découvrir Plus
+            </a>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    <button class="arrow left" onclick="prevSlide()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#014537" class="size-6" style="transform: rotate(180deg);">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
+    <button class="arrow right" onclick="nextSlide()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#014537" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
+  <% } else { %>
+    <!-- رسالة عدم وجود منتجات في الكاروسيل -->
+    <div style="width:100%;text-align:center;padding:80px 20px;color:#666">
+      <i class="fas fa-images" style="font-size:60px;color:#C9A349;margin-bottom:20px;"></i>
+      <h3 style="color:#014537;margin-bottom:15px;font-size:24px;">
+        Aucun produit en vedette
+      </h3>
+      <p style="margin-bottom:25px;font-size:16px;">
+        Aucun produit n'est actuellement disponible pour la section carrousel.
+      </p>
+      <p style="color:#888;margin-bottom:30px;font-size:14px;">
+        Les produits vedettes seront bientôt disponibles.
+      </p>
+    </div>
+  <% } %>
+</div>
+
+<% if (carouselProducts && carouselProducts.length > 0) { %>
+<script>
+  // كود الكاروسيل يعمل فقط إذا كانت هناك منتجات
+  const slides = document.getElementById('slides');
+  const totalSlides = slides ? slides.children.length : 0;
+  let currentIndex = 0;
+
+  function goToSlide(index) {
+    currentIndex = index;
+    if (slides) slides.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    goToSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    goToSlide(currentIndex);
+  }
+
+  if (slides && totalSlides > 0) {
+    setInterval(nextSlide, 10000);
+    goToSlide(0);
+  }
+</script>
+<% } %>
+
+<div class="filteres">
+  <h2>Filtrer </h2>
+  
+  <select id="Articles">
+    <option value="">Article</option>
+   <option value="Canapé">Canapé</option>
+    <option value="Fauteuil">Fauteuil</option>
+    <option value="Table Basse">Table Basse</option>
+    <option value="Bibliothèque">Bibliothèque</option>
+    <option value="Meuble TV">Meuble TV</option>
+    <option value="Buffet">Buffet</option>
+    <option value="Console">Console</option>
+    <option value="Table d’appoint">Table d’appoint</option>
+    <option value="Pouf">Pouf</option>
+    <option value="Banc">Banc</option>
+  </select>
+  <select id="citey">
+    <option value="">ville</option>
+    <option value="Casablanca">Casablanca</option>
+    <option value="Rabat">Rabat</option>
+    <option value="Marrakech">Marrakech</option>
+    <option value="Fès">Fès</option>
+    <option value="Tanger">Tanger</option>
+  </select>
+
+  
+  <select id="styles">
+    <option value="">style</option>
+    <option value="Français">Français</option>
+  <option value="Industriel">Industriel</option>
+  <option value="Luxe">Luxe</option>
+  <option value="Méditerranéen">Méditerranéen</option>
+  <option value="Moderne">Moderne</option>
+  <option value="Pour enfant">Pour enfant</option>
+  <option value="Rustique">Rustique</option>
+  <option value="Traditionnel">Traditionnel</option>
+  <option value="Tropical">Tropical</option>
+  <option value="Bohème">Bohème</option>
+  <option value="Contemporain">Contemporain</option>
+  <option value="Côtier">Côtier</option>
+  <option value="Cottagecore">Cottagecore</option>
+  <option value="Éclectique">Éclectique</option>
+  <option value="Extérieur">Extérieur</option>
+  </select>
+  
+  <select id="colors">
+    <option value="">couleur</option>
+    <option value="noir">Noir</option>
+<option value="orange">Orange</option>
+<option value="peche">Pêche</option>
+<option value="rose">Rose</option>
+<option value="rouge">Rouge</option>
+<option value="transparent">Transparent</option>
+<option value="turquoise">Turquoise</option>
+<option value="vert">Vert</option>
+<option value="violet">Violet</option>
+<option value="metallique">Métallique</option>
+<option value="miroir">Miroir</option>
+<option value="multicolore">Multicolore</option>
+<option value="creme">Crème</option>
+<option value="cuivre">Cuivre</option>
+<option value="dore">Doré</option>
+<option value="gris">Gris</option>
+<option value="gris_fonce">Gris foncé</option>
+<option value="gris_pale">Gris pâle</option>
+<option value="jaune">Jaune</option>
+<option value="lime">Lime</option>
+<option value="marron">Marron</option>
+  </select>
+
+
+  <select id="prices">
+    <option value="">prix</option>
+    <option value="500">Moins de 500 DH</option>
+    <option value="1000">500 DH - 1000 DH</option>
+    <option value="3000">1000 DH - 3000 DH</option>
+    <option value="5000">Plus de 3000 DH</option>
+  </select>
+</div>
+
+<div class="cards-container" id="cards-container">
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script>
+  const slides = document.getElementById('slides');
+  const totalSlides = slides ? slides.children.length : 0;
+  let currentIndex = 0;
+
+  function goToSlide(index) {
+    currentIndex = index;
+    if (slides) slides.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    goToSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    goToSlide(currentIndex);
+  }
+
+  if (slides) {
+    setInterval(nextSlide, 10000);
+    goToSlide(0);
+  }
+</script>
+<script>
+     let products = [];
+const input = document.getElementById('search-input');
+const suggestions = document.getElementById('suggestions');
+const btnSearch = document.getElementById('btn-search');
+
+let searchTimeout;
+
+async function loadProducts() {
+  try {
+    const response = await fetch('/api/products');
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    products = await response.json();
+    
+    window.fuseIndex = new Fuse(products, {
+      keys: [
+        'name', 
+        'city', 
+        'style', 
+        'color', 
+        'category', 
+        'bigcategory', 
+        'smallcategory', 
+        'vendeur'
+      ],
+      threshold: 0.45,
+      includeScore: true
+    });
+    
+    //('Products loaded successfully:', products.length);
+  } catch (err) {
+    console.error('فشل تحميل المنتجات', err);
+    suggestions.innerHTML = '<div style="padding:10px;color:#f00">خطأ في تحميل البيانات</div>';
+  }
+}
+
+async function searchFromServer(query) {
+  try {
+    const response = await fetch(`/api/products/search?q=${encodeURIComponent(query)}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    
+    const results = await response.json();
+    
+    const formattedResults = results.map(item => ({
+      item: item,
+      score: 0
+    }));
+    
+    renderSuggestions(formattedResults);
+  } catch (error) {
+    console.error('Search error:', error);
+    renderSuggestions([]);
+  }
+}
+
+function renderSuggestions(results) {
+  if (!results || results.length === 0) {
+    suggestions.innerHTML = '<div style="padding:10px;color:#666">aucun résultat</div>';
+    return;
+  }
+  
+  suggestions.innerHTML = results.slice(0, 8).map(r => {
+    const item = r.item;
+    
+    const displayCategory = item.bigcategory || item.category || '';
+    
+    return `
+      <div class="s-item" data-id="${item._id}" data-name="${encodeURIComponent(item.name)}" data-city="${item.city || ''}" data-category="${item.category || ''}">
+        ${item.mainImages ? `<img src="${item.mainImages}" alt="${item.name}" onerror="this.style.display='none'">` : ''}
+        <div class="s-meta">
+          <div class="s-name">${item.name}</div>
+          <div class="s-price" style="font-size:13px;color:#004d40;font-weight:bold;margin-bottom:2px">
+            ${item.price ? `${item.price}` : ''}
+          </div>
+          <div style="font-size:12px;color:#666">
+            ${item.city || '' }
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // إضافة event listeners للاقتراحات
+  document.querySelectorAll('.s-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const productId = el.dataset.id;
+      const productName = decodeURIComponent(el.dataset.name);
+      const productCity = el.dataset.city;
+      const productCategory = el.dataset.category;
+      
+      // الانتقال إلى صفحة البحث مع المنتج المحدد
+      // نحتاج إلى إرسال POST request مع البيانات
+      sendToSearchPage({
+        query: productName,
+        selectedProductId: productId,
+        productName: productName,
+        productCity: productCity,
+        productCategory: productCategory
+      });
+    });
+  });
+}
+
+// دالة لإرسال البيانات إلى صفحة البحث
+function sendToSearchPage(data) {
+  // إنشاء form مخفي
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/search';  // هذا هو route الـ search.ejs
+  
+  // إضافة حقول مخفية للبيانات
+  Object.keys(data).forEach(key => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = data[key];
+    form.appendChild(input);
+  });
+  
+  // إضافة form إلى الصفحة وإرساله
+  document.body.appendChild(form);
+  form.submit();
+}
+
+// استراتيجية البحث الهجينة
+input.addEventListener('input', () => {
+  const q = input.value.trim();
+  
+  if (searchTimeout) clearTimeout(searchTimeout);
+  
+  if (!q) {
+    suggestions.innerHTML = '';
+    return;
+  }
+  
+  if (window.fuseIndex && products.length > 0) {
+    const res = window.fuseIndex.search(q, { limit: 12 });
+    renderSuggestions(res);
+  } else {
+    searchTimeout = setTimeout(() => {
+      searchFromServer(q);
+    }, 300);
+  }
+});
+
+// زر البحث
+btnSearch.addEventListener('click', () => {
+  const q = input.value.trim();
+  if (!q) {
+    alert('يرجى إدخال كلمة للبحث.');
+    input.focus();
+    return;
+  }
+  
+  // عند الضغط على زر "Connexion"، ننتقل إلى صفحة البحث مع query فقط
+  sendToSearchPage({
+    query: q,
+    selectedProductId: ''
+  });
+});
+
+// إخفاء الاقتراحات عند النقر خارجها
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.nav-icons')) suggestions.innerHTML = '';
+});
+
+// دعم الضغط Enter
+input.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    btnSearch.click();
+  }
+});
+
+// تحميل المنتجات عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  loadProducts();
+});
+</script>
+<script>
+  const producte = <%- JSON.stringify(productes) %> || [];
+
+  if (typeof producte !== 'undefined' && Array.isArray(producte)) {
+    //('📥 جاري تحويل بيانات المنتجات من EJS...');
+    
+    products = producte.map((item, index) => ({
+      id: item._id || index,
+      name: item.name || "بدون اسم",
+      city: item.city || "غير محدد",
+      style: item.style || "غير محدد",
+      color: item.color || "غير محدد",
+      category: item.category || "غير محدد",
+      vendeur: item.vendeur || "غير معروف",
+      mainImages: item.mainImages[0] || "/uploads/default.jpg",
+      price: parseInt(item.price) || 0,
+      type: item.type || item.category || "غير محدد"
+    }));
+
+    // التحقق من وجود منتجات
+    if (products.length === 0) {
+      //('📭 لا توجد منتجات لعرضها');
+      disableFilters();
+      showNoProductsMessage();
+    } else {
+      //(`✅ تم تحميل ${products.length} منتج`);
+      initializeFilters();
+      updatePlaceholder();
+    }
+    
+  } else {
+    console.error('❌ لم يتم العثور على بيانات productes من EJS');
+    setTimeout(() => {
+      extractProductsFromDOM();
+    }, 500);
+  }
+
+  // ========== دالة تعطيل الفلاتر ==========
+  function disableFilters() {
+    //('🔒 تعطيل الفلاتر...');
+    
+    const filterIds = [
+      'city', 'style', 'color', 'price', 'Article',
+      'citey', 'styles', 'colors', 'prices', 'Articles'
+    ];
+    
+    filterIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.disabled = true;
+        element.style.backgroundColor = '#f5f5f5';
+        element.style.cursor = 'not-allowed';
+        element.style.opacity = '0.7';
+        element.title = 'Aucun produit disponible - Filtres désactivés';
+      }
+    });
+  }
+
+  // ========== دالة تفعيل الفلاتر ==========
+  function enableFilters() {
+    //('🔓 تفعيل الفلاتر...');
+    
+    const filterIds = [
+      'city', 'style', 'color', 'price', 'Article',
+      'citey', 'styles', 'colors', 'prices', 'Articles'
+    ];
+    
+    filterIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.disabled = false;
+        element.style.backgroundColor = '';
+        element.style.cursor = '';
+        element.style.opacity = '';
+        element.title = '';
+      }
+    });
+  }
+
+  // ========== رسالة عدم وجود منتجات ==========
+  function showNoProductsMessage() {
+    //('📭 عرض رسالة عدم وجود منتجات...');
+    
+    const container = document.querySelector('.cards-container');
+    if (!container) {
+      console.error('❌ لم أجد حاوية البطاقات');
+      return;
+    }
+    
+    // عرض رسالة عدم وجود منتجات
+    container.innerHTML = `
+      <div style="width:100%;text-align:center;padding:80px 20px;color:#666;grid-column:1/-1">
+        <i class="fas fa-box-open" style="font-size:60px;color:#C9A349;margin-bottom:20px;"></i>
+        <h3 style="color:#014537;margin-bottom:15px;font-size:24px;">
+          Aucun produit disponible
+        </h3>
+        <p style="margin-bottom:25px;font-size:16px;">
+          Nous sommes désolés, mais il n'y a actuellement aucun produit à afficher.
+        </p>
+        <p style="color:#888;margin-bottom:30px;font-size:14px;">
+          Revenez bientôt pour découvrir nos nouveaux produits.
+        </p>
+        <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap;">
+          <button onclick="window.location.href='/'" 
+                  style="padding:12px 25px;background:#014537;color:white;
+                         border:none;border-radius:5px;cursor:pointer;
+                         font-weight:bold;transition:background 0.3s;">
+            <i class="fas fa-home"></i> Retour à l'accueil
+          </button>
+          <button onclick="window.location.reload()" 
+                  style="padding:12px 25px;background:#C9A349;color:white;
+                         border:none;border-radius:5px;cursor:pointer;
+                         font-weight:bold;transition:background 0.3s;">
+            <i class="fas fa-sync-alt"></i> Rafraîchir
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== استخراج البيانات من البطاقات ==========
+  function extractProductsFromDOM() {
+    //('🔍 محاولة استخراج المنتجات من البطاقات الموجودة...');
+    const cards = document.querySelectorAll('.card');
+    
+    if (cards.length > 0) {
+      products = Array.from(cards).map((card, index) => {
+        const name = card.querySelector('h3')?.textContent || `منتج ${index + 1}`;
+        const city = card.querySelector('.location')?.textContent || "غير محدد";
+        const priceText = card.querySelector('.price')?.textContent || "0 DH";
+        const price = parseInt(priceText.replace(' DH', '')) || 0;
+        const vendeur = card.querySelector('.vendeur')?.textContent?.replace('Vendu par : ', '') || "غير معروف";
+        const mainImages = card.querySelector('img')?.src || "/uploads/default.jpg";
+        
+        return {
+          id: index,
+          name: name,
+          city: city,
+          style: card.dataset.style || "غير محدد",
+          color: card.dataset.color || "غير محدد",
+          category: card.dataset.category || "غير محدد",
+          vendeur: vendeur,
+          mainImages: mainImages[0],
+          price: price,
+          type: card.dataset.category || "غير محدد"
+        };
+      });
+      
+      //('✅ تم استخراج المنتجات من البطاقات:', products.length);
+      
+      if (products.length === 0) {
+        disableFilters();
+        showNoProductsMessage();
+      } else {
+        enableFilters();
+        initializeFilters();
+        updatePlaceholder();
+      }
+    } else {
+      disableFilters();
+      showNoProductsMessage();
+    }
+  }
+
+  // ========== تهيئة نظام الفلترة ==========
+  function initializeFilters() {
+    //('🔧 تهيئة نظام الفلترة...');
+    
+    if (!products || products.length === 0) {
+      console.warn('⚠️ لا توجد منتجات لتهيئة الفلاتر');
+      return;
+    }
+    
+    // تحديث خيارات الفلاتر
+    updateFilterOptions();
+    
+    // إضافة أحداث التغيير للفلاتر
+    const filterIds = [
+      'city', 'style', 'color', 'price', 'Article',
+      'citey', 'styles', 'colors', 'prices', 'Articles'
+    ];
+    
+    filterIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('change', () => {
+          //(`🎯 فلتر ${id} تغير إلى:`, element.value);
+          syncFilters(id);
+          applyFilters();
+        });
+      }
+    });
+    
+    // إضافة زر إعادة التعيين
+    addResetButton();
+    
+    //('✅ تم إعداد نظام الفلترة');
+  }
+  
+  // ========== تحديث خيارات الفلاتر ==========
+  function updateFilterOptions() {
+    if (!products || products.length === 0) return;
+    
+    // المدينة
+    const cities = [...new Set(products.map(p => p.city).filter(c => c && c !== "غير محدد"))];
+    updateSelect('city', cities);
+    updateSelect('citey', cities);
+    
+    // النمط
+    const styles = [...new Set(products.map(p => p.style).filter(s => s && s !== "غير محدد"))];
+    updateSelect('style', styles);
+    updateSelect('styles', styles);
+    
+    // اللون
+    const colors = [...new Set(products.map(p => p.color).filter(c => c && c !== "غير محدد"))];
+    updateSelect('color', colors);
+    updateSelect('colors', colors);
+    
+    // الفئة
+    const categories = [...new Set(products.map(p => p.category).filter(c => c && c !== "غير محدد"))];
+    updateSelect('Article', categories);
+    updateSelect('Articles', categories);
+    
+    // السعر (خيارات ثابتة)
+    setupPriceFilters();
+  }
+  
+  function updateSelect(selectId, options) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    
+    const currentValue = select.value;
+    const placeholder = selectId === 'city' ? 'Ville' : 
+                       selectId === 'style' ? 'Style' :
+                       selectId === 'color' ? 'Couleur' :
+                       selectId === 'Article' ? 'Catégorie' :
+                       selectId === 'price' ? 'Prix' : 'اختر...';
+    
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+    
+    if (options.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = "";
+      opt.textContent = "Aucune option";
+      opt.disabled = true;
+      select.appendChild(opt);
+    } else {
+      options.sort().forEach(option => {
+        if (option) {
+          const opt = document.createElement('option');
+          opt.value = option;
+          opt.textContent = option;
+          select.appendChild(opt);
+        }
+      });
+    }
+    
+    if (currentValue && options.includes(currentValue)) {
+      select.value = currentValue;
+    }
+  }
+  
+  function setupPriceFilters() {
+    const priceOptions = [
+      { value: '500', label: 'Moins de 500 DH' },
+      { value: '1000', label: '500 - 1000 DH' },
+      { value: '3000', label: '1000 - 3000 DH' },
+      { value: '5000', label: 'Plus de 3000 DH' }
+    ];
+    
+    ['price', 'prices'].forEach(id => {
+      const select = document.getElementById(id);
+      if (select) {
+        const currentValue = select.value;
+        select.innerHTML = '<option value="">Prix</option>';
+        
+        priceOptions.forEach(range => {
+          const opt = document.createElement('option');
+          opt.value = range.value;
+          opt.textContent = range.label;
+          select.appendChild(opt);
+        });
+        
+        if (currentValue) select.value = currentValue;
+      }
+    });
+  }
+  
+  // ========== مزامنة الفلاتر المزدوجة ==========
+  function syncFilters(changedId) {
+    const syncMap = {
+      city: "citey",
+      style: "styles",
+      color: "colors",
+      price: "prices",
+      Article: "Articles",
+      citey: "city",
+      styles: "style",
+      colors: "color",
+      prices: "price",
+      Articles: "Article"
+    };
+    
+    const targetId = syncMap[changedId];
+    if (targetId) {
+      const source = document.getElementById(changedId);
+      const target = document.getElementById(targetId);
+      if (source && target) {
+        target.value = source.value;
+      }
+    }
+  }
+  
+  // ========== تطبيق الفلاتر ==========
+  function applyFilters() {
+    //('🎛️ تطبيق الفلاتر...');
+    
+    // الحصول على جميع البطاقات
+    const cards = document.querySelectorAll('.card');
+    
+    if (cards.length === 0) {
+      console.warn('⚠️ لا توجد بطاقات لتصفيتها');
+      return;
+    }
+    
+    // الحصول على قيم الفلاتر
+    const filters = {
+      city: document.getElementById('city')?.value || '',
+      style: document.getElementById('style')?.value || '',
+      color: document.getElementById('color')?.value || '',
+      price: document.getElementById('price')?.value || '',
+      Article: document.getElementById('Article')?.value || ''
+    };
+    
+    let visibleCount = 0;
+    
+    // تطبيق الفلاتر على كل بطاقة
+    cards.forEach(card => {
+      const cardData = {
+        city: card.dataset.city || '',
+        style: card.dataset.style || '',
+        color: card.dataset.color || '',
+        category: card.dataset.category || '',
+        price: parseInt(card.querySelector('.price')?.textContent?.replace(' DH', '')) || 0
+      };
+      
+      // التحقق من كل فلتر
+      let isVisible = true;
+      
+      if (filters.city && filters.city !== '' && cardData.city !== filters.city) {
+        isVisible = false;
+      }
+      
+      if (filters.style && filters.style !== '' && cardData.style !== filters.style) {
+        isVisible = false;
+      }
+      
+      if (filters.color && filters.color !== '' && cardData.color !== filters.color) {
+        isVisible = false;
+      }
+      
+      if (filters.Article && filters.Article !== '' && cardData.category !== filters.Article) {
+        isVisible = false;
+      }
+      
+      if (filters.price && filters.price !== '') {
+        const price = cardData.price;
+        if (filters.price === '500' && price > 500) isVisible = false;
+        else if (filters.price === '1000' && (price <= 500 || price > 1000)) isVisible = false;
+        else if (filters.price === '3000' && (price <= 1000 || price > 3000)) isVisible = false;
+        else if (filters.price === '5000' && price <= 3000) isVisible = false;
+      }
+      
+      // إظهار أو إخفاء البطاقة
+      if (isVisible) {
+        card.style.display = 'block';
+        card.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+        card.classList.add('hidden');
+      }
+    });
+    
+    //(`📊 نتائج الفلترة: ${visibleCount} بطاقة ظاهرة من أصل ${cards.length}`);
+    
+    // تحديث عداد النتائج
+    updateResultsCount(visibleCount);
+    
+    // عرض رسالة إذا لم توجد نتائج
+    const container = document.querySelector('.cards-container');
+    const existingMessage = container?.querySelector('.no-results-message');
+    
+    if (visibleCount === 0) {
+      if (!existingMessage) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'no-results-message';
+        messageDiv.style.cssText = 'width:100%;text-align:center;padding:50px;color:#666;grid-column:1/-1';
+        messageDiv.innerHTML = `
+          <h3 style="color:#014537;margin-bottom:15px">Aucun résultat trouvé</h3>
+          <p style="margin-bottom:20px">Nous n'avons trouvé aucun produit correspondant à vos critères de filtrage.</p>
+          <button onclick="resetAllFilters()" 
+                  style="padding:12px 25px;background:#C9A349;color:white;
+                         border:none;border-radius:5px;cursor:pointer;
+                         font-weight:bold;">
+            <i class="fas fa-redo"></i> Réinitialiser les filtres
+          </button>
+        `;
+        container.appendChild(messageDiv);
+      }
+    } else {
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+    }
+  }
+  
+  // ========== تحديث عداد النتائج ==========
+  function updateResultsCount(count) {
+    let counter = document.getElementById('filter-results-counter');
+    
+    if (count > 0) {
+      if (!counter) {
+        counter = document.createElement('div');
+        counter.id = 'filter-results-counter';
+        counter.style.cssText = `
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: #C9A349;
+          color: white;
+          padding: 10px 18px;
+          border-radius: 25px;
+          font-weight: bold;
+          z-index: 9999;
+          box-shadow: 0 6px 20px rgba(201, 163, 73, 0.3);
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        `;
+        document.body.appendChild(counter);
+      }
+      
+      counter.innerHTML = `<i class="fas fa-filter"></i> ${count} résultat(s)`;
+      counter.style.display = 'flex';
+      
+      // إخفاء العداد بعد 5 ثواني
+      setTimeout(() => {
+        if (counter) {
+          counter.style.opacity = '0';
+          counter.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => {
+            if (counter) counter.style.display = 'none';
+          }, 500);
+        }
+      }, 5000);
+      
+    } else if (counter) {
+      counter.remove();
+    }
+  }
+  
+  // ========== إضافة زر إعادة التعيين ==========
+  function addResetButton() {
+    const filterSections = document.querySelectorAll('.filters, .filteres');
+    
+    filterSections.forEach(section => {
+      if (!section.querySelector('.reset-filters-btn')) {
+        const resetBtn = document.createElement('button');
+        resetBtn.className = 'reset-filters-btn';
+        resetBtn.innerHTML = '<i class="fas fa-redo"></i> Réinitialiser';
+        resetBtn.style.cssText = `
+          background: #014537;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-weight: bold;
+          margin-left: 15px;
+          transition: all 0.3s ease;
+        `;
+        resetBtn.onmouseover = () => resetBtn.style.background = '#013429';
+        resetBtn.onmouseout = () => resetBtn.style.background = '#014537';
+        resetBtn.onclick = resetAllFilters;
+        
+        section.appendChild(resetBtn);
+      }
+    });
+  }
+  
+  // ========== إعادة تعيين جميع الفلاتر ==========
+  function resetAllFilters() {
+    //('🔄 إعادة تعيين الفلاتر');
+    
+    // إعادة تعيين قيم الفلاتر
+    const filterIds = [
+      'city', 'style', 'color', 'price', 'Article',
+      'citey', 'styles', 'colors', 'prices', 'Articles'
+    ];
+    
+    filterIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) element.value = '';
+    });
+    
+    // إظهار جميع البطاقات
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.style.display = 'block';
+      card.classList.remove('hidden');
+    });
+    
+    // إزالة العداد
+    const counter = document.getElementById('filter-results-counter');
+    if (counter) counter.remove();
+    
+    // إزالة رسالة عدم وجود نتائج
+    const noResults = document.querySelectorAll('.no-results-message');
+    noResults.forEach(el => el.remove());
+    
+    //('✅ تمت إعادة التعيين بنجاح');
+  }
+  
+  // ========== تحديث placeholder البحث ==========
+  function updatePlaceholder() {
+    const searchInput = document.querySelector('input[type="search"], input[placeholder*="بحث"]');
+    if (searchInput && products && products.length > 0) {
+      searchInput.placeholder = `Rechercher parmi ${products.length} produits...`;
+    }
+  }
+  
+  // ========== جعل الدوال متاحة عالمياً ==========
+  window.resetAllFilters = resetAllFilters;
+  window.showAllProducts = resetAllFilters; // نفس الدالة
+  
+</script>
+  <script>
+    // Scroll effect for navbar
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 10) {
+    document.body.classList.add("scrolled");
+  } else {
+    document.body.classList.remove("scrolled");
+  }
+});
+
+  </script>
+  <script>
+    document.querySelectorAll('.filters select').forEach(select => {
+    select.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            
+            this.blur();
+            
+            window.scrollBy({
+                top: (event.key === 'ArrowDown' ? 50 : -50), 
+                behavior: 'smooth'
+            });
+            event.preventDefault();
+        }
+    });
+});
+    document.querySelectorAll('.filteres select').forEach(select => {
+    select.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            
+            this.blur();
+            
+            window.scrollBy({
+                top: (event.key === 'ArrowDown' ? 50 : -50), 
+                behavior: 'smooth'
+            });
+            event.preventDefault();
+        }
+    });
+});
+ const productes = <%- JSON.stringify(productes) %> || [];
+
+   function createCardHTML(product) {
+    return `
+      <div onclick="openPage('${product._id}')" class="card" 
+           data-city="${product.city}" 
+           data-price="${product.price}" 
+           data-style="${product.style}" 
+           data-color="${product.color}" 
+           data-category="${product.category}">
+        <div class="card-img"> <img src="${product.mainImages}" alt="${product.name}"></div>
+        <div class="card-body">
+          <div>
+            <h3>${product.name}</h3>
+            <p class="vendeur">Vendu par : ${product.vendeur}</p>
+            <p class="location">${product.city}</p>
+          </div>
+          <div class="price-btn-row">
+            <span class="price">${product.price} DH</span>
+            <button onclick="event.stopPropagation(); openPage('${product._id}')">Voir</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+ window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('cards-container');
+    container.innerHTML = productes.map(createCardHTML).join('');
+  });
+  function openPage(id) {
+    window.location.href = `detailleproduct/${id}`;
+  }
+</script>
+ 
+<script>
+        (function() {
+            const openBtn = document.getElementById('openContact');
+            const overlay = document.getElementById('contactOverlay');
+            const modal = document.getElementById('contactDialog');
+            const closeBtn = document.getElementById('closeContact');
+            const qrCanvas = document.getElementById('qrCanvas');
+            const copyPhone = document.getElementById('copyPhone');
+
+            // الرابط الذي سيتم توليد QR له
+            const message = "Bonjour, je souhaiterais vous parler d'un problème que j'ai rencontré ou vous apporter un retour d'expérience pour le développement de la plateforme.";
+            const encodedMessage = encodeURIComponent(message);
+            const QR_TARGET = `https://wa.me/212602156653?text=${encodedMessage}`;
+
+
+            let lastFocused = null;
+
+            // توليد QR Code
+            function generateQR() {
+                if (window.QRCode && qrCanvas) {
+                    QRCode.toCanvas(qrCanvas, QR_TARGET, {
+                        width: 160,
+                        height: 160,
+                        margin: 2,
+                        color: {
+                            dark: '#004d40',
+                            light: '#ffffff'
+                        }
+                    }, function(error) {
+                        if (error) {
+                            console.error('QR generation error:', error);
+                            // Fallback to API
+                            const img = document.createElement('img');
+                            img.src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=004d40&bgcolor=ffffff&data=" + encodeURIComponent(QR_TARGET);
+                            img.style.width = '160px';
+                            img.style.height = '160px';
+                            img.style.borderRadius = '8px';
+                            const wrap = document.getElementById('qrWrap');
+                            wrap.replaceChild(img, qrCanvas);
+                        }
+                    });
+                } else {
+                    // Fallback to API
+                    const img = document.createElement('img');
+                    img.src = "https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=004d40&bgcolor=ffffff&data=" + encodeURIComponent(QR_TARGET);
+                    img.style.width = '160px';
+                    img.style.height = '160px';
+                    img.style.borderRadius = '8px';
+                    const wrap = document.getElementById('qrWrap');
+                    wrap.replaceChild(img, qrCanvas);
+                }
+            }
+
+            // Focus trap للوصولية
+            function trapFocus(e) {
+                const focusable = modal.querySelectorAll('a, button, input, textarea, [tabindex]:not([tabindex="-1"])');
+                if (!focusable.length) return;
+                
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                
+                if (e.key === 'Tab') {
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+                
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            }
+
+            // فتح النافذة
+            function openModal() {
+                lastFocused = document.activeElement;
+                overlay.classList.add('show');
+                overlay.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                generateQR();
+                
+                setTimeout(() => {
+                    const firstBtn = modal.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+                    if (firstBtn) firstBtn.focus();
+                    document.addEventListener('keydown', trapFocus);
+                }, 100);
+            }
+
+            // إغلاق النافذة
+            function closeModal() {
+                overlay.classList.remove('show');
+                overlay.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                document.removeEventListener('keydown', trapFocus);
+                if (lastFocused) lastFocused.focus();
+            }
+
+            // Event listeners
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+
+            // إغلاق عند النقر خارج النافذة
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeModal();
+            });
+
+            // نسخ رقم الهاتف
+            copyPhone.addEventListener('click', function(e) {
+                e.preventDefault();
+                const phone = "+212602156653";
+                
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(phone).then(() => {
+                        copyPhone.innerHTML = '<i class="fa-solid fa-check"></i> Copié avec succès';
+                        setTimeout(() => {
+                            copyPhone.innerHTML = '<i class="fa-solid fa-copy"></i> Copier le numéro de téléphone';
+                        }, 2000);
+                    }).catch(() => {
+                        alert('فشل النسخ، انسخ الرقم يدوياً: ' + phone);
+                    });
+                } else {
+                    // Fallback للمتصفحات القديمة
+                    const textArea = document.createElement('textarea');
+                    textArea.value = phone;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        copyPhone.innerHTML = '<i class="fa-solid fa-check"></i> Copié avec succès ';
+                        setTimeout(() => {
+                            copyPhone.innerHTML = '<i class="fa-solid fa-copy"></i> Copier le numéro de téléphone ';
+                        }, 2000);
+                    } catch (err) {
+                        alert('La copie a échoué, copiez le numéro manuellement : ' + phone);
+                    }
+                    document.body.removeChild(textArea);
+                }
+            });
+
+        })();
+          const toggleBtn = document.getElementById("toggleBtn");
+const message = document.getElementById("message");
+
+toggleBtn.addEventListener("click", () => {
+  if (message.style.display === "none") {
+    message.style.display = "block";
+    toggleBtn.textContent = "−"; // من + إلى −
+  } else {
+    message.style.display = "none";
+    toggleBtn.textContent = "+"; // من − إلى +
+  }
+});
+    </script>
+</body>
+</html>
+
+
+

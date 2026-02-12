@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord Admin - veradecoration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #014537;      /* Vert foncé */
+            --secondary: #C9A349;    /* Or */
+            --accent: #C93F29;       /* Rouge/Orange */
+            --success: #2E8B57;      /* Vert */
+            --warning: #FF8C00;      /* Orange */
+            --light: #F5F5F5;
+            --dark: #333333;
+            --gray: #888888;
+            --shadow: 0 4px 12px rgba(1, 69, 55, 0.15);
+            --radius: 10px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #00281f 100%);
+            color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(201, 163, 73, 0.2);
+        }
+
+        .nav-links a.active {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #d4b44c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 163, 73, 0.3);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-info {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.35rem 0.85rem;
+            font-size: 0.8rem;
+            margin: 0.1rem;
+        }
+
+        /* Admin Dashboard */
+        .admin-header {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--secondary);
+        }
+
+        .admin-title {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .admin-title::before {
+            content: '👑';
+            font-size: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #016048 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(1, 69, 55, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .stat-card.users-card {
+            background: linear-gradient(135deg, #2C3E50 0%, #4A6278 100%);
+        }
+
+        .stat-card.products-card {
+            background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #e0e0e0;
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-bottom: none;
+            border-radius: var(--radius) var(--radius) 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            border-color: var(--secondary);
+            background-color: #FFF9E6;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-color: var(--secondary);
+            border-bottom: 3px solid white;
+            background: white;
+            margin-bottom: -3px;
+        }
+
+        .tab.active::before {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        /* Main Content Sections */
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            font-size: 1.2rem;
+        }
+
+        /* Search and Filters */
+        .search-container {
+            background: #f8f9fa;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(201, 163, 73, 0.1);
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background-color: #016048;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: var(--radius);
+            background: white;
+            min-width: 150px;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: linear-gradient(to bottom, var(--primary), #016048);
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .admin-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .admin-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .admin-table img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #e0e0e0;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background-color: #FFF3CD;
+            color: #856404;
+            border: 1px solid #FFEAA7;
+        }
+
+        .status-approved {
+            background-color: #D4EDDA;
+            color: #155724;
+            border: 1px solid #C3E6CB;
+        }
+
+        .status-rejected {
+            background-color: #F8D7DA;
+            color: #721C24;
+            border: 1px solid #F5C6CB;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .view-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        .delete-btn {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .approve-btn {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px solid var(--secondary);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 3px solid var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+            
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .admin-header {
+                padding: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: var(--success);
+        }
+
+        .notification.error {
+            border-left-color: var(--accent);
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            background: linear-gradient(135deg, var(--primary) 0%, #016048 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .stats-overview h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stats-overview h3::before {
+            content: '📊';
+        }
+
+        .stats-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .stats-detail {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid rgba(201, 163, 73, 0.3);
+        }
+
+        .stats-detail-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-detail-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* User Details */
+        .user-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .user-detail-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .user-detail-label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .user-detail-value {
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        /* Product Sub-tabs */
+        .sub-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+        }
+
+        .sub-tab {
+            padding: 0.75rem 1.5rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .sub-tab:hover {
+            background: #e9ecef;
+            color: var(--primary);
+        }
+
+        .sub-tab.active {
+            background: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* User Products Grid */
+        .user-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .user-product-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            transition: var(--transition);
+        }
+
+        .user-product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--secondary);
+        }
+
+        .user-product-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .user-product-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="/" class="logo">Market<span>Place</span> Admin</a>
+                <div class="nav-links">
+                    <a href="/admin/dashboard" class="active">👑 Tableau de bord</a>
+                    <a href="/" target="_blank">🌐 Voir site</a>
+                    <a href="/admin/logout" class="btn btn-danger">🚪 Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card users-card" onclick="switchSection('users')">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number"><%= allUsers.length %></div>
+                <div class="stat-label">Total Clients</div>
+            </div>
+            
+            <div class="stat-card products-card" onclick="switchSection('products')">
+                <div class="stat-icon">📦</div>
+                <div class="stat-number"><%= allProducts.length %></div>
+                <div class="stat-label">Total Produits</div>
+            </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="usersSection" class="content-section">
+            <div class="section-title">
+                <span>👥</span>
+                <h2>Gestion des Clients</h2>
+                <span class="stat-badge" style="margin-left: auto; background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 20px;">
+                    <%= allUsers.length %> clients
+                </span>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="userSearch" class="search-input" 
+                           placeholder="Rechercher par nom, magasin, ID, téléphone ou ville...">
+                    <button class="search-btn" onclick="searchUsers()">🔍 Rechercher</button>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-container">
+                <table class="admin-table" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>ID Client</th>
+                            <th>Nom Complet</th>
+                            <th>Magasin</th>
+                            <th>Ville</th>
+                            <th>Téléphone</th>
+                            <th>Date Inscription</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% allUsers.forEach(user => { 
+                            const userProducts = allProducts.filter(p => p.userId === user.userId);
+                            const approvedCount = userProducts.filter(p => p.status === 'approved').length;
+                            const pendingCount = userProducts.filter(p => p.status === 'pending').length;
+                            const rejectedCount = userProducts.filter(p => p.status === 'rejected').length;
+                        %>
+                            <tr data-user-id="<%= user.userId %>" 
+                                data-store-name="<%= user.storeName %>"
+                                data-city="<%= user.storeLocation %>"
+                                data-phone="<%= user.phone %>">
+                                <td>
+                                    <code style="background: #f1f1f1; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+                                        <%= user.userId %>
+                                    </code>
+                                </td>
+                                <td><strong><%= user.fullName %></strong></td>
+                                <td><%= user.storeName %></td>
+                                <td><%= user.storeLocation %></td>
+                                <td><%= user.phone %></td>
+                                <td><%= new Date(user.createdAt).toLocaleDateString('fr-FR') %></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" onclick="viewUserDetails('<%= user.userId %>', '<%= user.fullName %>', <%= approvedCount %>, <%= pendingCount %>, <%= rejectedCount %>)">
+                                            👁️ Voir
+                                        </button>
+                                        <button class="action-btn delete-btn" onclick="deleteUser('<%= user.userId %>')">
+                                            🗑️ Supprimer
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- User Stats Summary -->
+            <div class="stats-overview">
+                <h3>Statistiques des Clients</h3>
+                <div class="stats-details">
+                    <div class="stats-detail">
+                        <div class="stats-detail-value"><%= allUsers.length %></div>
+                        <div class="stats-detail-label">Clients Totaux</div>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stats-detail-value">
+                            <%= allUsers.reduce((sum, user) => {
+                                const userProducts = allProducts.filter(p => p.userId === user.userId);
+                                return sum + userProducts.filter(p => p.status === 'approved').length;
+                            }, 0) %>
+                        </div>
+                        <div class="stats-detail-label">Produits Approuvés</div>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stats-detail-value">
+                            <%= allUsers.reduce((sum, user) => {
+                                const userProducts = allProducts.filter(p => p.userId === user.userId);
+                                return sum + userProducts.filter(p => p.status === 'pending').length;
+                            }, 0) %>
+                        </div>
+                        <div class="stats-detail-label">Produits en Attente</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div id="productsSection" class="content-section">
+            <div class="section-title">
+                <span>📦</span>
+                <h2>Gestion des Produits</h2>
+                <span class="stat-badge" style="margin-left: auto; background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 20px;">
+                    <%= allProducts.length %> produits
+                </span>
+            </div>
+
+            <!-- Products Sub-tabs -->
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="switchProductTab('approved')">✅ Approuvés</button>
+                <button class="sub-tab" onclick="switchProductTab('rejected')">❌ Rejetés</button>
+                <button class="sub-tab" onclick="switchProductTab('pending')">⏳ En Attente</button>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="productSearch" class="search-input" 
+                           placeholder="Rechercher par nom, vendeur, catégorie, ville...">
+                    <button class="search-btn" onclick="searchProducts()">🔍 Rechercher</button>
+                </div>
+                <div class="filters">
+                    <select class="filter-select" id="categoryFilter" onchange="filterProducts()">
+                        <option value="">Toutes catégories</option>
+                        <option value="salon">Salon</option>
+                        <option value="decoration">Décoration</option>
+                    </select>
+                    <select class="filter-select" id="cityFilter" onchange="filterProducts()">
+                        <option value="">Toutes villes</option>
+                        <% if (moroccanCities && moroccanCities.length > 0) { %>
+                            <% moroccanCities.forEach(city => { %>
+                                <option value="<%= city %>"><%= city %></option>
+                            <% }) %>
+                        <% } else { %>
+                            <option value="">Chargement...</option>
+                        <% } %>
+                    </select>
+                    <select class="filter-select" id="priceFilter" onchange="filterProducts()">
+                        <option value="">Tous prix</option>
+                        <option value="0-1000">0 - 1000 DH</option>
+                        <option value="1000-5000">1000 - 5000 DH</option>
+                        <option value="5000+">5000+ DH</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Approved Products Tab -->
+            <div id="approvedTab" class="product-tab active">
+                <div class="table-container">
+                    <table class="admin-table" id="approvedTable">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Produit</th>
+                                <th>Vendeur (ID)</th>
+                                <th>Prix</th>
+                                <th>Ville</th>
+                                <th>Catégorie</th>
+                                <th>Date</th>
+                                <th>Vues</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allProducts.forEach(product => { 
+                                if (product.status === 'approved') { 
+                            %>
+                                <tr data-status="approved" 
+                                    data-category="<%= product.bigcategory %>"
+                                    data-city="<%= product.city %>"
+                                    data-price="<%= product.price %>">
+                                    <td><img src="<%= product.mainImages[0] %>" alt="<%= product.name %>"></td>
+                                    <td>
+                                        <strong><%= product.name %></strong><br>
+                                        <small><%= product.category %></small>
+                                    </td>
+                                    <td>
+                                        <%= product.vendeur %><br>
+                                        <small><code><%= product.userId %></code></small>
+                                    </td>
+                                    <td><strong><%= product.price %> DH</strong></td>
+                                    <td><%= product.city %></td>
+                                    <td><%= product.category %></td>
+                                    <td><%= new Date(product.createdAt).toLocaleDateString('fr-FR') %></td>
+                                    <td><%= product.views || 0 %></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn btn-sm" onclick="viewProductDetails('<%= product._id %>')">
+                                                👁️ Voir
+                                            </button>
+                                            <button class="action-btn delete-btn btn-sm" onclick="deleteProduct('<%= product._id %>')">
+                                                🗑️ Supprimer
+                                            </button>
+                                            <button class="action-btn edit-btn btn-sm" onclick="editProduct('<%= product._id %>')">
+                                                ✏️ Modifier
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } 
+                            }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Rejected Products Tab -->
+            <div id="rejectedTab" class="product-tab">
+                <div class="table-container">
+                    <table class="admin-table" id="rejectedTable">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Produit</th>
+                                <th>Vendeur (ID)</th>
+                                <th>Prix</th>
+                                <th>Ville</th>
+                                <th>Catégorie</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allProducts.forEach(product => { 
+                                if (product.status === 'rejected') { 
+                            %>
+                                <tr data-status="rejected">
+                                    <td><img src="<%= product.mainImages[0] %>" alt="<%= product.name %>"></td>
+                                    <td>
+                                        <strong><%= product.name %></strong><br>
+                                        <small><%= product.category %></small>
+                                    </td>
+                                    <td>
+                                        <%= product.vendeur %><br>
+                                        <small><code><%= product.userId %></code></small>
+                                    </td>
+                                    <td><strong><%= product.price %> DH</strong></td>
+                                    <td><%= product.city %></td>
+                                    <td><%= product.category %></td>
+                                    <td><%= new Date(product.createdAt).toLocaleDateString('fr-FR') %></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn btn-sm" onclick="viewProductDetails('<%= product._id %>')">
+                                                👁️ Voir
+                                            </button>
+                                            <button class="action-btn delete-btn btn-sm" onclick="deleteProduct('<%= product._id %>')">
+                                                🗑️ Supprimer
+                                            </button>
+                                            <button class="action-btn edit-btn btn-sm" onclick="editProduct('<%= product._id %>')">
+                                                ✏️ Modifier
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } 
+                            }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pending Products Tab -->
+            <div id="pendingTab" class="product-tab">
+                <div class="table-container">
+                    <table class="admin-table" id="pendingTable">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Produit</th>
+                                <th>Vendeur (ID)</th>
+                                <th>Prix</th>
+                                <th>Ville</th>
+                                <th>Catégorie</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allProducts.forEach(product => { 
+                                if (product.status === 'pending') { 
+                            %>
+                                <tr data-status="pending">
+                                    <td><img src="<%= product.mainImages[0] %>" alt="<%= product.name %>"></td>
+                                    <td>
+                                        <strong><%= product.name %></strong><br>
+                                        <small><%= product.category %></small>
+                                    </td>
+                                    <td>
+                                        <%= product.vendeur %><br>
+                                        <small><code><%= product.userId %></code></small>
+                                    </td>
+                                    <td><strong><%= product.price %> DH</strong></td>
+                                    <td><%= product.city %></td>
+                                    <td><%= product.category %></td>
+                                    <td><%= new Date(product.createdAt).toLocaleDateString('fr-FR') %></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn btn-sm" onclick="viewProductDetails('<%= product._id %>')">
+                                                👁️ Voir
+                                            </button>
+                                            <form action="/admin/approve-product/<%= product._id %>" method="POST" style="display: inline;">
+                                                <input type="hidden" name="status" value="rejected">
+                                                <button type="submit" class="action-btn reject-btn btn-sm" onclick="return confirm('Rejeter ce produit?')">
+                                                    ❌ Rejeter
+                                                </button>
+                                            </form>
+                                            <form action="/admin/approve-product/<%= product._id %>" method="POST" style="display: inline;">
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="action-btn approve-btn btn-sm" onclick="return confirm('Approuver ce produit?')">
+                                                    ✅ Approuver
+                                                </button>
+                                            </form>
+                                            <button class="action-btn edit-btn btn-sm" onclick="editProduct('<%= product._id %>')">
+                                                ✏️ Modifier
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } 
+                            }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Product Stats Overview -->
+            <div class="stats-overview">
+                <h3>Statistiques des Produits</h3>
+                <div class="stats-details">
+                    <div class="stats-detail">
+                        <div class="stats-detail-value">
+                            <%= allProducts.filter(p => p.status === 'approved').length %>
+                        </div>
+                        <div class="stats-detail-label">Approuvés</div>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stats-detail-value">
+                            <%= allProducts.filter(p => p.status === 'rejected').length %>
+                        </div>
+                        <div class="stats-detail-label">Rejetés</div>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stats-detail-value">
+                            <%= allProducts.filter(p => p.status === 'pending').length %>
+                        </div>
+                        <div class="stats-detail-label">En Attente</div>
+                    </div>
+                    <div class="stats-detail">
+                        <div class="stats-detail-value">
+                            <%= allProducts.reduce((sum, p) => sum + (p.views || 0), 0) %>
+                        </div>
+                        <div class="stats-detail-label">Total Vues</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- User Details Modal -->
+    <div class="modal" id="userDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="userModalTitle">Détails du Client</h2>
+                <button class="modal-close" onclick="closeModal('userDetailsModal')">&times;</button>
+            </div>
+            <div id="userDetailsContent">
+                <!-- User details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal" id="productDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="productModalTitle">Détails du Produit</h2>
+                <button class="modal-close" onclick="closeModal('productDetailsModal')">&times;</button>
+            </div>
+            <div id="productDetailsContent">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Modifier le Produit</h2>
+                <button class="modal-close" onclick="closeModal('editProductModal')">&times;</button>
+            </div>
+            <div id="editProductContent">
+                <!-- Edit form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                &copy; 2025 veradecoration Tous droits réservés. | Panel Administrateur v2.0
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    <script>
+        // Initial State - Show users section by default
+        document.addEventListener('DOMContentLoaded', function() {
+            switchSection('users');
+            console.log('📊 Dashboard admin chargé avec succès');
+            
+            // Check URL for messages
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            const type = urlParams.get('type');
+            
+            if (message) {
+                showNotification(decodeURIComponent(message), type || 'success');
+            }
+        });
+
+        // Switch between Users and Products sections
+        function switchSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(section + 'Section').classList.add('active');
+            
+            // Update active tab style
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.style.borderColor = 'transparent';
+            });
+            
+            if (section === 'users') {
+                document.querySelector('.users-card').style.borderColor = 'var(--secondary)';
+                switchProductTab('approved'); // Reset product tab
+            } else {
+                document.querySelector('.products-card').style.borderColor = 'var(--secondary)';
+            }
+            
+            console.log(`Switched to ${section} section`);
+        }
+
+        // Switch product tabs
+        function switchProductTab(tabName) {
+            // Hide all product tabs
+            document.querySelectorAll('.product-tab').forEach(tab => {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all sub-tabs
+            document.querySelectorAll('.sub-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Activate corresponding sub-tab
+            document.querySelector(`.sub-tab[onclick="switchProductTab('${tabName}')"]`).classList.add('active');
+            
+            console.log(`Switched to ${tabName} products tab`);
+        }
+
+        // Search users
+        function searchUsers() {
+            const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#usersTable tbody tr');
+            
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const userId = row.getAttribute('data-user-id').toLowerCase();
+                const storeName = row.getAttribute('data-store-name').toLowerCase();
+                const city = row.getAttribute('data-city').toLowerCase();
+                const phone = row.getAttribute('data-phone').toLowerCase();
+                
+                if (text.includes(searchTerm) || 
+                    userId.includes(searchTerm) || 
+                    storeName.includes(searchTerm) || 
+                    city.includes(searchTerm) || 
+                    phone.includes(searchTerm)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            showNotification(`Trouvé ${visibleCount} client(s)`, 'success');
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const activeTab = document.querySelector('.product-tab.active');
+            const rows = activeTab.querySelectorAll('tbody tr');
+            
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            showNotification(`Trouvé ${visibleCount} produit(s)`, 'success');
+        }
+
+        // Filter products
+        function filterProducts() {
+            const category = document.getElementById('categoryFilter').value;
+            const city = document.getElementById('cityFilter').value;
+            const price = document.getElementById('priceFilter').value;
+            const activeTab = document.querySelector('.product-tab.active');
+            const rows = activeTab.querySelectorAll('tbody tr');
+            
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                let show = true;
+                
+                if (category && row.getAttribute('data-category') !== category) {
+                    show = false;
+                }
+                
+                if (city && row.getAttribute('data-city') !== city) {
+                    show = false;
+                }
+                
+                if (price) {
+                    const productPrice = parseFloat(row.getAttribute('data-price') || 0);
+                    if (price === '0-1000' && (productPrice < 0 || productPrice > 1000)) show = false;
+                    if (price === '1000-5000' && (productPrice < 1000 || productPrice > 5000)) show = false;
+                    if (price === '5000+' && productPrice <= 5000) show = false;
+                }
+                
+                row.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+            
+            showNotification(`${visibleCount} produit(s) filtré(s)`, 'success');
+        }
+
+        // View user details
+        function viewUserDetails(userId, userName, approvedCount, pendingCount, rejectedCount) {
+            const modal = document.getElementById('userDetailsModal');
+            const content = document.getElementById('userDetailsContent');
+            document.getElementById('userModalTitle').textContent = `Client: ${userName}`;
+            
+            // Get user products
+            const userProducts = Array.from(document.querySelectorAll('#productsSection tr'))
+                .filter(row => row.textContent.includes(userId));
+            
+            const approvedProducts = userProducts.filter(p => p.getAttribute('data-status') === 'approved');
+            const rejectedProducts = userProducts.filter(p => p.getAttribute('data-status') === 'rejected');
+            const pendingProducts = userProducts.filter(p => p.getAttribute('data-status') === 'pending');
+            
+            content.innerHTML = `
+                <div class="user-details-grid">
+                    <div class="user-detail-card">
+                        <span class="user-detail-label">ID Client</span>
+                        <div class="user-detail-value"><code>${userId}</code></div>
+                    </div>
+                    <div class="user-detail-card">
+                        <span class="user-detail-label">Statut Produits</span>
+                        <div class="user-detail-value">
+                            <span class="status-badge status-approved">✅ ${approvedCount} Approuvés</span><br>
+                            <span class="status-badge status-pending">⏳ ${pendingCount} En Attente</span><br>
+                            <span class="status-badge status-rejected">❌ ${rejectedCount} Rejetés</span>
+                        </div>
+                    </div>
+                    <div class="user-detail-card">
+                        <span class="user-detail-label">Total Produits</span>
+                        <div class="user-detail-value" style="font-size: 2rem; color: var(--primary);">
+                            ${approvedCount + pendingCount + rejectedCount}
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 2rem; color: var(--primary);">Produits de ce client</h3>
+                <div class="user-products-grid">
+                    ${userProducts.slice(0, 6).map(product => {
+                        const productName = product.querySelector('td:nth-child(2) strong')?.textContent || 'Produit';
+                        const productImg = product.querySelector('img')?.src || '';
+                        const productPrice = product.querySelector('td:nth-child(4) strong')?.textContent || '0 DH';
+                        const status = product.getAttribute('data-status');
+                        const statusText = status === 'approved' ? '✅ Approuvé' : 
+                                         status === 'pending' ? '⏳ En Attente' : '❌ Rejeté';
+                        const statusClass = status === 'approved' ? 'status-approved' : 
+                                          status === 'pending' ? 'status-pending' : 'status-rejected';
+                        
+                        return `
+                            <div class="user-product-card">
+                                <img src="${productImg}" alt="${productName}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                                <div class="user-product-title">${productName}</div>
+                                <div><strong>Prix:</strong> ${productPrice}</div>
+                                <span class="user-product-status ${statusClass}">${statusText}</span>
+                            </div>
+                        `;
+                    }).join('')}
+                    
+                    ${userProducts.length === 0 ? 
+                        '<div class="empty-state"><div class="empty-state-icon">📭</div><p>Aucun produit trouvé pour ce client</p></div>' : 
+                        ''
+                    }
+                </div>
+                
+                ${userProducts.length > 6 ? 
+                    `<p style="text-align: center; margin-top: 1rem; color: var(--gray);">
+                        ... et ${userProducts.length - 6} produit(s) supplémentaire(s)
+                    </p>` : 
+                    ''
+                }
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // View product details
+        function viewProductDetails(productId) {
+            const modal = document.getElementById('productDetailsModal');
+            const content = document.getElementById('productDetailsContent');
+            
+            // Find the product row
+            const productRow = Array.from(document.querySelectorAll('tr')).find(row => 
+                row.textContent.includes(productId) || 
+                row.querySelector(`button[onclick*="${productId}"]`)
+            );
+            
+            if (!productRow) {
+                content.innerHTML = '<p>Produit non trouvé</p>';
+                modal.style.display = 'flex';
+                return;
+            }
+            
+            // Extract product details
+            const productName = productRow.querySelector('td:nth-child(2) strong')?.textContent || 'Produit';
+            const productImg = productRow.querySelector('img')?.src || '';
+            const vendeur = productRow.querySelector('td:nth-child(3)')?.textContent || 'Inconnu';
+            const price = productRow.querySelector('td:nth-child(4) strong')?.textContent || '0 DH';
+            const city = productRow.querySelector('td:nth-child(5)')?.textContent || 'Inconnue';
+            const category = productRow.querySelector('td:nth-child(6)')?.textContent || 'Non catégorisé';
+            const date = productRow.querySelector('td:nth-child(7)')?.textContent || 'Date inconnue';
+            const views = productRow.querySelector('td:nth-child(8)')?.textContent || '0';
+            const status = productRow.getAttribute('data-status') || 'pending';
+            const statusText = status === 'approved' ? '✅ Approuvé' : 
+                             status === 'pending' ? '⏳ En Attente' : '❌ Rejeté';
+            
+            document.getElementById('productModalTitle').textContent = `Produit: ${productName}`;
+            
+            content.innerHTML = `
+                <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+                    <div style="flex: 1;">
+                        <img src="${productImg}" alt="${productName}" style="width: 100%; border-radius: var(--radius); border: 3px solid #f0f0f0;">
+                    </div>
+                    <div style="flex: 2;">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">${productName}</h3>
+                        <div class="user-details-grid">
+                            <div class="user-detail-card">
+                                <span class="user-detail-label">Prix</span>
+                                <div class="user-detail-value" style="font-size: 1.5rem; color: var(--secondary);">${price}</div>
+                            </div>
+                            <div class="user-detail-card">
+                                <span class="user-detail-label">Ville</span>
+                                <div class="user-detail-value">${city}</div>
+                            </div>
+                            <div class="user-detail-card">
+                                <span class="user-detail-label">Catégorie</span>
+                                <div class="user-detail-value">${category}</div>
+                            </div>
+                            <div class="user-detail-card">
+                                <span class="user-detail-label">Statut</span>
+                                <div class="user-detail-value">
+                                    <span class="status-badge ${status === 'approved' ? 'status-approved' : status === 'pending' ? 'status-pending' : 'status-rejected'}">
+                                        ${statusText}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="user-detail-card">
+                                <span class="user-detail-label">Vendeur</span>
+                                <div class="user-detail-value">${vendeur}</div>
+                            </div>
+                            <div class="user-detail-card">
+                                <span class="user-detail-label">Vues</span>
+                                <div class="user-detail-value">${views}</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: var(--radius);">
+                            <strong>Date de publication:</strong> ${date}<br>
+                            <strong>ID Produit:</strong> <code>${productId}</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="action-btn edit-btn" onclick="editProduct('${productId}'); closeModal('productDetailsModal')">
+                        ✏️ Modifier ce produit
+                    </button>
+                    ${status === 'pending' ? `
+                        <form action="/admin/approve-product/${productId}" method="POST" style="display: inline;">
+                            <input type="hidden" name="status" value="approved">
+                            <button type="submit" class="action-btn approve-btn" onclick="return confirm('Approuver ce produit?')">
+                                ✅ Approuver
+                            </button>
+                        </form>
+                        <form action="/admin/approve-product/${productId}" method="POST" style="display: inline;">
+                            <input type="hidden" name="status" value="rejected">
+                            <button type="submit" class="action-btn reject-btn" onclick="return confirm('Rejeter ce produit?')">
+                                ❌ Rejeter
+                            </button>
+                        </form>
+                    ` : ''}
+                    <button class="action-btn delete-btn" onclick="deleteProduct('${productId}'); closeModal('productDetailsModal')">
+                        🗑️ Supprimer
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Edit product
+        function editProduct(productId) {
+            const modal = document.getElementById('editProductModal');
+            const content = document.getElementById('editProductContent');
+            
+            content.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div class="loading"></div>
+                    <p>Chargement du formulaire de modification...</p>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+            
+            // Simulate loading
+            setTimeout(() => {
+                content.innerHTML = `
+                    <form id="editProductForm">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+                                Nom du produit
+                            </label>
+                            <input type="text" class="search-input" value="Salon Comfort 1" style="width: 100%;">
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+                                    Prix (DH)
+                                </label>
+                                <input type="number" class="search-input" value="3200" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+                                    Ville
+                                </label>
+                                <select class="filter-select" style="width: 100%;">
+                                    <option value="Casablanca" selected>Casablanca</option>
+                                    <option value="Rabat">Rabat</option>
+                                    <option value="Marrakech">Marrakech</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+                                Catégorie
+                            </label>
+                            <select class="filter-select" style="width: 100%;">
+                                <option value="salon" selected>Salon</option>
+                                <option value="decoration">Décoration</option>
+                            </select>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+                                Description
+                            </label>
+                            <textarea class="search-input" rows="4" style="width: 100%;">Salon marocain de haute qualité en tissu rouge</textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                            <button type="button" class="action-btn" onclick="closeModal('editProductModal')" 
+                                    style="background: #95a5a6; color: white;">
+                                Annuler
+                            </button>
+                            <button type="submit" class="action-btn approve-btn">
+                                💾 Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                `;
+                
+                // Add form submit handler
+                document.getElementById('editProductForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    showNotification('Produit modifié avec succès', 'success');
+                    closeModal('editProductModal');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                };
+            }, 800);
+        }
+
+        // Delete user
+        function deleteUser(userId) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer ce client (ID: ${userId}) ? Cette action est irréversible.`)) {
+                showNotification(`Suppression du client ${userId} en cours...`, 'warning');
+                // In real app, you would make an AJAX request here
+                setTimeout(() => {
+                    showNotification('Client supprimé avec succès', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }, 1500);
+            }
+        }
+
+        // Delete product
+        function deleteProduct(productId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.')) {
+                showNotification('Suppression du produit en cours...', 'warning');
+                // In real app, you would make an AJAX request here
+                setTimeout(() => {
+                    showNotification('Produit supprimé avec succès', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }, 1500);
+            }
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 300);
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (modal.style.display === 'flex') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Ctrl+F for search
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                const activeSection = document.querySelector('.content-section.active');
+                if (activeSection.id === 'usersSection') {
+                    document.getElementById('userSearch').focus();
+                } else {
+                    document.getElementById('productSearch').focus();
+                }
+            }
+        });
+        // الحذف الحقيقي باستخدام AJAX
+async function deleteUser(userId) {
+  if (!confirm('⚠️ هل أنت متأكد من حذف هذا الزبون؟\n\nسيتم حذف جميع منتجاته أيضاً.\nهذا الإجراء لا يمكن التراجع عنه.')) {
+    return;
+  }
+  
+  const confirmation = prompt('⚠️ للتأكيد، اكتب "حذف" للمتابعة:');
+  if (confirmation !== 'حذف') {
+    showNotification('تم إلغاء الحذف', 'warning');
+    return;
+  }
+  
+  try {
+    showNotification('جاري حذف الزبون...', 'info');
+    
+    const response = await fetch(`/admin/delete-user/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      showNotification(result.message, 'success');
+      // إزالة الصف من الجدول
+      const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+      if (row) row.remove();
+      
+      // تحديث العداد
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } else {
+      showNotification(result.message, 'error');
+    }
+    
+  } catch (err) {
+    console.error('خطأ في حذف الزبون:', err);
+    showNotification('حدث خطأ أثناء حذف الزبون', 'error');
+  }
+}
+
+async function deleteProduct(productId) {
+  if (!confirm('⚠️ هل أنت متأكد من حذف هذا المنتج؟\n\nهذا الإجراء لا يمكن التراجع عنه.')) {
+    return;
+  }
+  
+  try {
+    showNotification('جاري حذف المنتج...', 'info');
+    
+    const response = await fetch(`/admin/delete-product/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      showNotification(result.message, 'success');
+      // إزالة المنتج من الجدول
+      const rows = document.querySelectorAll('tr');
+      rows.forEach(row => {
+        if (row.querySelector(`button[onclick*="${productId}"]`)) {
+          row.remove();
+        }
+      });
+      
+      // تحديث العداد بعد ثانية
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      showNotification(result.message, 'error');
+    }
+    
+  } catch (err) {
+    console.error('خطأ في حذف المنتج:', err);
+    showNotification('حدث خطأ أثناء حذف المنتج', 'error');
+  }
+}
+
+async function editProduct(productId) {
+  // حفظ ID المنتج في الجلسة للاستخدام لاحقاً
+  sessionStorage.setItem('editingProductId', productId);
+  
+  // عرض نموذج التعديل
+  const modal = document.getElementById('editProductModal');
+  const content = document.getElementById('editProductContent');
+  
+  // جلب بيانات المنتج أولاً
+  try {
+    showNotification('جاري تحميل بيانات المنتج...', 'info');
+    
+    // في التطبيق الحقيقي، ستجلب البيانات من API
+    const productRow = Array.from(document.querySelectorAll('tr')).find(row => 
+      row.textContent.includes(productId) || 
+      row.querySelector(`button[onclick*="${productId}"]`)
+    );
+    
+    if (!productRow) {
+      content.innerHTML = '<p>المنتج غير موجود</p>';
+      modal.style.display = 'flex';
+      return;
+    }
+    
+    // استخراج البيانات من الصف
+    const productName = productRow.querySelector('td:nth-child(2) strong')?.textContent || '';
+    const productPrice = productRow.querySelector('td:nth-child(4) strong')?.textContent || '';
+    const productCity = productRow.querySelector('td:nth-child(5)')?.textContent || '';
+    const productCategory = productRow.querySelector('td:nth-child(6)')?.textContent || '';
+    
+    // عرض نموذج التعديل
+    content.innerHTML = `
+      <form id="editProductForm" onsubmit="updateProduct(event, '${productId}')">
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+            اسم المنتج *
+          </label>
+          <input type="text" id="editProductName" class="search-input" value="${productName}" 
+                 style="width: 100%;" required>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+              السعر (DH) *
+            </label>
+            <input type="number" id="editProductPrice" class="search-input" value="${productPrice.replace(' DH', '')}" 
+                   style="width: 100%;" min="0" step="0.01" required>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+              المدينة *
+            </label>
+            <select id="editProductCity" class="filter-select" style="width: 100%;" required>
+              <option value="">اختر المدينة</option>
+              <% if (moroccanCities && moroccanCities.length > 0) { %>
+                <% moroccanCities.forEach(city => { %>
+                  <option value="<%= city %>" ${productCity === city ? 'selected' : ''}>
+                    <%= city %>
+                  </option>
+                <% }) %>
+              <% } %>
+            </select>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+            الفئة *
+          </label>
+          <input type="text" id="editProductCategory" class="search-input" value="${productCategory}" 
+                 style="width: 100%;" required>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">
+            الوصف
+          </label>
+          <textarea id="editProductDescription" class="search-input" rows="4" style="width: 100%;"
+                    placeholder="وصف المنتج..."></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+          <button type="button" class="action-btn" onclick="closeModal('editProductModal')" 
+                  style="background: #95a5a6; color: white;">
+            إلغاء
+          </button>
+          <button type="submit" class="action-btn approve-btn">
+            💾 حفظ التعديلات
+          </button>
+        </div>
+      </form>
+    `;
+    
+    modal.style.display = 'flex';
+    showNotification('تم تحميل بيانات المنتج', 'success');
+    
+  } catch (err) {
+    console.error('خطأ في تحميل بيانات المنتج:', err);
+    showNotification('حدث خطأ في تحميل بيانات المنتج', 'error');
+  }
+}
+
+async function updateProduct(event, productId) {
+  event.preventDefault();
+  
+  try {
+    const formData = {
+      name: document.getElementById('editProductName').value,
+      price: document.getElementById('editProductPrice').value,
+      city: document.getElementById('editProductCity').value,
+      category: document.getElementById('editProductCategory').value,
+      description: document.getElementById('editProductDescription').value
+    };
+    
+    showNotification('جاري تحديث المنتج...', 'info');
+    
+    const response = await fetch(`/admin/update-product/${productId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      showNotification('تم تحديث المنتج بنجاح', 'success');
+      closeModal('editProductModal');
+      
+      // إعادة تحميل الصفحة بعد تأخير
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } else {
+      showNotification(result.message, 'error');
+    }
+    
+  } catch (err) {
+    console.error('خطأ في تحديث المنتج:', err);
+    showNotification('حدث خطأ أثناء تحديث المنتج', 'error');
+  }
+}
+    </script>
+</body>
+</html>

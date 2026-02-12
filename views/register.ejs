@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vira Decoration</title>
+    <style>
+       
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #f6f3f1;
+  
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-top: 5px solid #C9A349; 
+  border-right: 5px solid #C9A349;
+   border-left: 5px solid #C9A349; 
+   height: 80px;
+}
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c2b6c;
+  cursor: pointer;
+  animation: logoEntrance 0.8s ease-out forwards;
+  transition: transform 0.4s ease, color 0.3s ease;
+
+}
+.logo img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+.logo:hover img {
+  transform: scale(1.1);
+}
+.logo:hover {
+  transform: scale(1.1) rotate(-2deg);
+  color: #b99b6b;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+nav a {
+  text-decoration: none;
+  color: #C9A349;
+  position: relative;
+  transition: color 0.3s ease;
+  font-weight: bolder;
+  font-family: 'Poppins', sans-serif;
+  margin-left: 10px;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background-color: #b99b6b;
+  transition: width 0.3s ease;
+}
+nav a:hover {
+  color: #b99b6b;
+}
+nav a:hover::after {
+  width: 100%;
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: #f6f3f1;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border: 5px solid #C9A349; 
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #014537;
+            color: #C9A349;
+        }
+
+        .btn-primary:hover {
+            transform:scale(1.05);
+             background-color: #013d2e;
+        }
+
+        .btn-secondary {
+            background-color: var(--light);
+            color: #014537;
+            border: 1px solid var(--gray);
+        }
+        .btn-secondary:hover {
+           transform:scale(1.05);
+        }
+
+        /* Formulaire d'inscription */
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            margin-top: 80px; 
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .error {
+            color: var(--accent);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background-color: #014537;
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            background-color: #C9A349;
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .auth-links a {
+            color:#C9A349 ;
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #014537;
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 1.5rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+   <header class="navbar">
+    <div class="logo"><img src="/uploads/logo.png" alt=""></div>
+    <nav>
+      <ul>
+           <li><a href="/" class="btn btn-secondary">Accueil</a></li>
+            <li><a href="/login" class="btn btn-primary">Connexion</a></li>
+            
+      </ul>
+    </nav>
+    
+  </header>
+   
+
+   
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1 class="auth-title">Créer un compte</h1>
+            
+            <% if (errors && errors.length > 0) { %>
+                <div class="alert">
+                    <ul style="margin-left: 1rem;">
+                        <% errors.forEach(error => { %>
+                            <li><%= error.msg %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form action="/register" method="POST" id="registerForm">
+    <div class="form-group">
+        <label for="fullName" class="form-label">Nom complet *</label>
+        <input type="text" id="fullName" name="fullName" class="form-control" 
+               value="<%= formData.fullName || '' %>" required>
+    </div>
+
+    <div class="form-group">
+        <label for="storeName" class="form-label">Nom du magasin *</label>
+        <input type="text" id="storeName" name="storeName" class="form-control" 
+               value="<%= formData.storeName || '' %>" required>
+    </div>
+
+    <!-- حقل Adresse الجديد -->
+    <div class="form-group">
+        <label for="storeAddress" class="form-label">Adresse du magasin *</label>
+        <input type="text" id="storeAddress" name="storeAddress" class="form-control" 
+               value="<%= formData.storeAddress || '' %>" 
+               placeholder="Ex: Rue Mohamed V, N°123" required>
+    </div>
+
+    <div class="form-group">
+        <label for="storeLocation" class="form-label">Ville *</label>
+        <select id="storeLocation" name="storeLocation" class="select-control" required>
+            <option value="">Sélectionnez une ville</option>
+            <% moroccanCities.forEach(city => { %>
+                <option value="<%= city %>" 
+                        <%= formData.storeLocation === city ? 'selected' : '' %>>
+                    <%= city %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+
+    <!-- حقل Description الجديد -->
+    <div class="form-group">
+        <label for="storeDescription" class="form-label">Description du magasin *</label>
+        <textarea id="storeDescription" name="storeDescription" class="form-control" 
+                  rows="3" 
+                  placeholder="Décrivez votre magasin, vos produits, etc." 
+                  required><%= formData.storeDescription || '' %></textarea>
+        <small style="color: var(--gray);">Maximum 500 caractères</small>
+    </div>
+
+    <div class="form-group">
+        <label for="phone" class="form-label">Numéro de téléphone *</label>
+        <input type="tel" id="phone" name="phone" class="form-control" 
+               value="<%= formData.phone || '' %>" 
+               pattern="[0-9]{10}" 
+               placeholder="Ex: 0612345678" required>
+        <small style="color: var(--gray);">Format: 10 chiffres (ex: 0612345678)</small>
+    </div>
+
+    <div class="form-group">
+        <label for="password" class="form-label">Mot de passe *</label>
+        <input type="password" id="password" name="password" class="form-control" 
+               minlength="6" required>
+        <small style="color: var(--gray);">Minimum 6 caractères</small>
+    </div>
+
+    <div class="form-group">
+        <label for="confirmPassword" class="form-label">Confirmer le mot de passe *</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" 
+               class="form-control" required>
+    </div>
+
+    
+      <div class="form-group">
+        <label for="deliveryArea" class="form-label">Zone de livraison *</label>
+        <select id="deliveryArea" name="deliveryArea" class="select-control" required>
+            <option value="">Sélectionnez une zone</option>
+            <option value="toute_maroc" <%= formData.deliveryArea === 'toute_maroc' ? 'selected' : '' %>>
+                ✅ Livraison dans tout le Maroc
+            </option>
+            <option value="region_seule" <%= formData.deliveryArea === 'region_seule' ? 'selected' : '' %>>
+                🗺️ Livraison uniquement dans la région
+            </option>
+            <option value="ville_seule" <%= formData.deliveryArea === 'ville_seule' ? 'selected' : '' %>>
+                🏙️ Livraison uniquement dans la ville
+            </option>
+        </select>
+        <small style="color: var(--gray);">
+            Choisissez votre zone de livraison. Ce choix déterminera où vous pouvez livrer vos produits.
+        </small>
+        <% if (errors && errors.find(e => e.path === 'deliveryArea')) { %>
+            <small style="color: red;"><%= errors.find(e => e.path === 'deliveryArea').msg %></small>
+        <% } %>
+    </div>
+    <div class="form-group" style="background-color: #f8f9fa; padding: 1rem; border-radius: var(--radius);">
+        <p style="margin-bottom: 0.5rem;"><strong>Important:</strong></p>
+        <p style="font-size: 0.9rem; color: var(--gray);">
+            Un ID unique de 20 caractères sera généré pour vous après l'inscription.
+            Cet ID sera nécessaire pour vous connecter à votre compte.
+        </p>
+    </div>
+
+    <button type="submit" class="btn-submit">S'inscrire</button>
+</form>
+
+            <div class="auth-links">
+                <p>Déjà inscrit ? <a href="/login">Connectez-vous ici</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3 style="margin-bottom: 1rem;">veradecoration</h3>
+                    <p>Plateforme de vente en ligne pour les commerçants marocains.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 veradecoration. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Validation du formulaire
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Vérification mot de passe
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Les mots de passe ne correspondent pas');
+                return false;
+            }
+            
+            // Vérification téléphone
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone)) {
+                e.preventDefault();
+                alert('Numéro de téléphone invalide. 10 chiffres requis.');
+                return false;
+            }
+            
+            // Vérification longueur mot de passe
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('Le mot de passe doit contenir au moins 6 caractères');
+                return false;
+            }
+            
+            return true;
+        });
+
+        // Affichage/masquage mot de passe
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+
+        // Message de bienvenue
+        document.addEventListener('DOMContentLoaded', function() {
+            //('Formulaire d\'inscription chargé');
+        });
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+          document.addEventListener('keydown', function(e) {
+            
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                alert('Accès non autorisé');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

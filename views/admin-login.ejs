@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vira Decoration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: #f6f3f1;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Carte de connexion */
+        .login-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1c2b6c;
+  cursor: pointer;
+  animation: logoEntrance 0.8s ease-out forwards;
+  transition: transform 0.4s ease, color 0.3s ease;
+
+}
+.logo img {
+  width: 170px;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+.logo img:hover {
+  transform: scale(1.1);
+}
+
+
+        .login-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Formulaire */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            background-color: white;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .toggle-password:hover {
+            background-color: #f1f5f9;
+            color: var(--dark);
+        }
+
+        .error {
+            color: var(--accent);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert::before {
+            content: '⚠️';
+            font-size: 1.2rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: #014537;
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            transition: transform 0.5s;
+        }
+
+        .btn-submit:hover::after {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        /* Liens */
+        .login-links {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .login-links a {
+            color: #a48858;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Informations d'identification par défaut */
+        .credentials-info {
+            background-color: #f8f9fa;
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--warning);
+            font-size: 0.9rem;
+        }
+
+        .credentials-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .credentials-info code {
+            background-color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #ddd;
+            display: inline-block;
+            margin: 0.25rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 2rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .login-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.5rem;
+            }
+            
+            .container {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Security badge */
+        .security-badge {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .security-badge::before {
+            content: '🔒';
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo"><img src="/uploads/logo.png" alt=""></div>
+                <h1 class="login-title">Connexion Administrateur</h1>
+                <p class="login-subtitle">Accès réservé au personnel autorisé</p>
+            </div>
+
+            <% if (error) { %>
+                <div class="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/admin/login" method="POST" id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminId" class="form-label">ID Administrateur</label>
+                    <input type="text" id="adminId" name="adminId" class="form-control" 
+                           placeholder="Entrez votre ID administrateur" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" class="form-control" 
+                               placeholder="Entrez votre mot de passe" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    Se connecter
+                </button>
+            </form>
+
+            <div class="login-links">
+                <a href="/">← Retour au site principal</a>
+            </div>
+
+            <div class="security-badge">
+                Connexion sécurisée
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Afficher/masquer le mot de passe
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        // Validation du formulaire
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            const adminId = document.getElementById('adminId').value;
+            const password = document.getElementById('password').value;
+            
+            // Validation basique
+            if (!adminId || !password) {
+                e.preventDefault();
+                alert('Veuillez remplir tous les champs');
+                return false;
+            }
+            
+            // Désactiver le bouton pour éviter les doubles soumissions
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Connexion en cours...';
+            
+            // Simuler un délai de sécurité
+            setTimeout(() => {
+                this.submit();
+            }, 1000);
+            
+            return true;
+        });
+
+        // Effet de focus sur les champs
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Entrée pour soumettre
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName === 'INPUT' && activeElement.type !== 'textarea') {
+                    document.getElementById('adminLoginForm').submit();
+                }
+            }
+        });
+
+        // Générer un ID admin par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            //('Page de connexion admin chargée');
+            
+            // Générer un timestamp pour l'ID admin
+            const timestamp = Date.now().toString().slice(-17);
+            const adminId = 'ADM' + timestamp;
+            document.getElementById('defaultAdminId').textContent = adminId;
+            
+            // Animation d'entrée
+            document.querySelector('.login-card').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.login-card').style.opacity = '1';
+            }, 100);
+        });
+
+        // Protection contre l'inspection
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Désactiver F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                alert('Accès non autorisé');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

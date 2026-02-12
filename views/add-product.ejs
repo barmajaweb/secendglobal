@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vira Decoration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+        }
+
+        .nav-links a:hover {
+            background-color: var(--light);
+            color: #a48858;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--gray);
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Formulaire */
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: var(--accent);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        .error {
+            color: var(--accent);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-upload:hover {
+            border-color: var(--secondary);
+            background-color: #f8fafc;
+        }
+
+        .image-upload input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .image-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: var(--radius);
+            border: 1px solid #ddd;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background-color: #014537;
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 2rem;
+        }
+
+        .btn-submit:hover {
+            background-color: #014537;
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Informations */
+        .info-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--dark);
+        }
+
+        /* Catégories dynamiques */
+        .category-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .category-option {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-option:hover {
+            border-color: var(--secondary);
+            background-color: #f8fafc;
+        }
+
+        .category-option.selected {
+            border-color: var(--secondary);
+            background-color: #e3f2fd;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #014537;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--accent);
+        }
+         .logo {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1c2b6c;
+  cursor: pointer;
+  animation: logoEntrance 0.8s ease-out forwards;
+  transition: transform 0.4s ease, color 0.3s ease;
+
+}
+.logo img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+.logo img:hover {
+  transform: scale(1.1);
+}
+.info-strip {
+    background: #f1f9f1;
+    border: 1px solid #27ae60;
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.strip-icon {
+    font-size: 1.3rem;
+    color: #27ae60;
+}
+
+.strip-text {
+    color: #2c3e50;
+    font-weight: 500;
+    flex: 1;
+}
+
+.strip-required {
+    background: #27ae60;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><img src="/uploads/logo.png" alt=""></div>
+                <div class="nav-links">
+                    <a href="/">Accueil</a>
+                    <a href="/dashboard">Tableau de bord</a>
+                    <a href="/add-product" class="active">Ajouter Produit</a>
+                    <a href="/logout" class="btn btn-danger">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Formulaire d'ajout de produit -->
+    <div class="container">
+        <div class="form-container">
+            <h1 class="form-title">Ajouter un nouveau produit</h1>
+            
+            <% if (error) { %>
+                <div class="info-box" style="border-left-color: var(--accent);">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+<form action="/add-product" method="POST" enctype="multipart/form-data" id="productForm">
+    <!-- Informations de base -->
+                         <div class="info-box">
+        <p><strong>Note importante :</strong> Tous les produits doivent être approuvés par l'administrateur avant d'être publiés sur la plateforme.</p>
+    </div>
+
+                            <div class="form-row">
+        <div class="form-group">
+            <label for="name" class="form-label required">Nom du produit</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="form-label required">Prix (DH)</label>
+            <input type="number" id="price" name="price" class="form-control" min="0" step="0.01" required>
+        </div>
+    </div>
+
+    <!-- Catégories -->
+                      <div class="form-group">
+        <label class="form-label required">Grande catégorie</label>
+        <div class="category-container" id="bigcategoryContainer">
+            <div class="category-option" data-value="meuble" onclick="selectBigCategory('meuble')">Meuble</div>
+            <div class="category-option" data-value="decoration" onclick="selectBigCategory('decoration')">Décoration</div>
+        </div>
+        <input type="hidden" id="bigcategory" name="bigcategory" required>
+    </div>
+    
+                      <div class="form-group">
+        <label class="form-label required">Petite catégorie</label>
+        <div class="category-container" id="smallcategoryContainer">
+            <div class="info-box">
+                <p>Sélectionnez d'abord une petite catégorie</p>
+            </div>
+        </div>
+        <input type="hidden" id="smallcategory" name="smallcategory" required>
+    </div>
+    <!-- ========== SECTION: DESCRIPTION ========== -->
+<div class="form-section">
+    
+    
+    <div class="form-group">
+        <label for="description" class="form-label required">Description du produit *</label>
+        <textarea  id="description" name="description" class="form-control" rows="1" required 
+                  maxlength="500" placeholder="Décrivez votre produit en détail..."></textarea>
+        <small class="form-text">Maximum 500 caractères - Ce champ est obligatoire</small>
+        
+    </div>
+</div>
+
+
+                      <div class="form-group">
+        <label for="size" class="form-label required">Taille *</label>
+        <select id="size" name="size" class="select-control" required>
+            <option value="">Sélectionnez une taille</option>
+            <option value="petit"> Petit</option>
+            <option value="moyen"> Moyen</option>
+            <option value="grand"> Grand</option>
+        </select>
+    </div>
+                     <div class="form-group">
+        <label for="category" class="form-label required">Catégorie spécifique</label>
+        
+            <input type="text" id="category" name="category" class="form-control" required placeholder="ex:salon marocain  ">
+        
+    </div>
+
+
+                       <div class="form-row">
+        <div class="form-group">
+            <label for="city" class="form-label required">Ville</label>
+            <select id="city" name="city" class="select-control" required>
+                <option value="">Sélectionnez une ville</option>
+                <% moroccanCities.forEach(city => { %>
+                    <option value="<%= city %>"><%= city %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-group">
+    <label for="style" class="form-label required">Style </label>
+    <div class="style-container">
+        <select id="style" name="style" class="select-control" onchange="handleStyleChange()" required>
+            <option value="">Sélectionnez un style </option>
+            <option value="moderne">Moderne</option>
+            <option value="traditionnel">Traditionnel</option>
+            <option value="classique">Classique</option>
+            <option value="contemporain">Contemporain</option>
+            <option value="industriel">Industriel</option>
+            <option value="rustique">Rustique</option>
+            <option value="autre">Autre</option>
+        </select>
+        <input type="text" id="styleOther" name="styleOther" class="form-control" 
+               placeholder="Précisez le style *" style="display: none; margin-top: 10px;" required>
+    </div>
+    <small class="form-hint">Ce champ est obligatoire</small>
+</div>
+    </div>
+
+    <!-- Couleur principale -->
+                   <div class="form-group">
+        <label for="color" class="form-label required">Couleur principale</label>
+        <div class="color-container">
+            <select id="color" name="color" class="select-control" onchange="handleColorChange()" required>
+                <option value="">Sélectionnez une couleur</option>
+                <option value="blanc">Blanc</option>
+                <option value="noir">Noir</option>
+                <option value="rouge">Rouge</option>
+                <option value="bleu">Bleu</option>
+                <option value="vert">Vert</option>
+                <option value="jaune">Jaune</option>
+                <option value="marron">Marron</option>
+                <option value="gris">Gris</option>
+                <option value="beige">Beige</option>
+                <option value="doré">Doré</option>
+                <option value="argenté">Argenté</option>
+                <option value="violet">Violet</option>
+                <option value="orange">Orange</option>
+                <option value="rose">Rose</option>
+                <option value="autre">Autre couleur</option>
+            </select>
+            <input type="text" id="colorCustom" name="colorCustom" class="form-control" 
+                   placeholder="Précisez la couleur" style="display: none; margin-top: 10px;">
+        </div>
+    </div>
+
+    <!-- Images pour couleur principale -->
+                <div class="form-group" id="mainColorImagesSection">
+        <label class="form-label required">Images pour la couleur principale</label>
+        <div class="info-box small">
+            <p>Ajoutez jusqu'à 3 images pour montrer le produit dans la couleur principale</p>
+        </div>
+        
+        <!-- Image 1 (Obligatoire) -->
+        <div class="form-group">
+            <label class="form-label required">Image principale 1 <span class="required-star"></span></label>
+            <div class="image-upload">
+                <div>📷</div>
+                <div>Cliquez pour télécharger l'image principale</div>
+                <input type="file" name="mainImage1" accept="image/*" required onchange="previewImage(this, 'previewMain1')">
+            </div>
+            <div class="image-preview" id="previewMain1Container">
+                <img id="previewMain1" src="" alt="Aperçu image principale 1">
+            </div>
+        </div>
+       <div class="info-strip">
+    <span class="strip-icon">📷</span>
+    <span class="strip-text">Ajouter deux images pour cette couleur</span>
+    <span class="strip-required">Optionnelle</span>
+</div>
+        <!-- Image 2 (Optionnelle) -->
+        <div class="form-group">
+            <label class="form-label">Image principale 2</label>
+            <div class="image-upload">
+                <div>📷</div>
+                <div>Cliquez pour télécharger une image supplémentaire</div>
+                <input type="file" name="mainImage2" accept="image/*" onchange="previewImage(this, 'previewMain2')">
+            </div>
+            <div class="image-preview" id="previewMain2Container">
+                <img id="previewMain2" src="" alt="Aperçu image principale 2">
+            </div>
+        </div>
+
+        <!-- Image 3 (Optionnelle) -->
+        <div class="form-group">
+            <label class="form-label">Image principale 3</label>
+            <div class="image-upload">
+                <div>📷</div>
+                <div>Cliquez pour télécharger une image supplémentaire</div>
+                <input type="file" name="mainImage3" accept="image/*" onchange="previewImage(this, 'previewMain3')">
+            </div>
+            <div class="image-preview" id="previewMain3Container">
+                <img id="previewMain3" src="" alt="Aperçu image principale 3">
+            </div>
+        </div>
+    </div>
+
+    <!-- Question: Y a-t-il d'autres couleurs disponibles ? -->
+                   <div class="form-group">
+        <label class="form-label">Y a-t-il d'autres couleurs disponibles pour ce produit ?</label>
+        <div class="radio-group">
+            <label class="radio-option">
+                <input type="radio" name="hasAdditionalColors" value="yes" onclick="toggleAdditionalColors()">
+                <span>Oui</span>
+            </label>
+            <label class="radio-option">
+                <input type="radio" name="hasAdditionalColors" value="no" onclick="toggleAdditionalColors()" checked>
+                <span>Non</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Couleurs supplémentaires -->
+    <div id="additionalColorsContainer" style="display: none;">
+        <!-- Couleur additionnelle 1 -->
+        <div class="additional-color-section" style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #e0e0e0;">
+            <h4 style="color: var(--primary); margin-bottom: 15px;">🎨 Couleur additionnelle 1</h4>
+            
+            <div class="form-group">
+                <label class="form-label">Sélectionnez la couleur</label>
+                <select name="additionalColor1" class="select-control" onchange="handleAdditionalColorChange(1)">
+                    <option value="">Sélectionnez une couleur</option>
+                    <option value="blanc">Blanc</option>
+                    <option value="noir">Noir</option>
+                    <option value="rouge">Rouge</option>
+                    <option value="bleu">Bleu</option>
+                    <option value="vert">Vert</option>
+                    <option value="jaune">Jaune</option>
+                    <option value="marron">Marron</option>
+                    <option value="autre">Autre</option>
+                </select>
+                <input type="text" name="additionalColorCustom1" class="form-control" 
+                       placeholder="Précisez la couleur" style="display: none; margin-top: 10px;">
+            </div>
+
+            <!-- Images pour couleur additionnelle 1 -->
+            <div class="color-images-section">
+                <label class="form-label">Images pour cette couleur (max 3)</label>
+                <div class="info-box small">
+                    <p>Ajoutez jusqu'à 3 images pour montrer le produit dans cette couleur</p>
+                </div>
+                
+                <!-- Image 1 -->
+                <div class="form-group">
+                    <label class="form-label">Image 1</label>
+                    <div class="image-upload">
+                        <div>📷</div>
+                        <div>Cliquez pour télécharger l'image</div>
+                        <input type="file" name="additionalColor1Image1" accept="image/*" onchange="previewImage(this, 'previewAdd1Img1')">
+                    </div>
+                    <div class="image-preview" id="previewAdd1Img1Container">
+                        <img id="previewAdd1Img1" src="" alt="Aperçu couleur additionnelle 1 image 1">
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="form-group">
+                    <label class="form-label">Image 2</label>
+                    <div class="image-upload">
+                        <div>📷</div>
+                        <div>Cliquez pour télécharger l'image</div>
+                        <input type="file" name="additionalColor1Image2" accept="image/*" onchange="previewImage(this, 'previewAdd1Img2')">
+                    </div>
+                    <div class="image-preview" id="previewAdd1Img2Container">
+                        <img id="previewAdd1Img2" src="" alt="Aperçu couleur additionnelle 1 image 2">
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="form-group">
+                    <label class="form-label">Image 3</label>
+                    <div class="image-upload">
+                        <div>📷</div>
+                        <div>Cliquez pour télécharger l'image</div>
+                        <input type="file" name="additionalColor1Image3" accept="image/*" onchange="previewImage(this, 'previewAdd1Img3')">
+                    </div>
+                    <div class="image-preview" id="previewAdd1Img3Container">
+                        <img id="previewAdd1Img3" src="" alt="Aperçu couleur additionnelle 1 image 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Couleur additionnelle 2 -->
+        <div class="additional-color-section" style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #e0e0e0;">
+            <h4 style="color: var(--primary); margin-bottom: 15px;">🎨 Couleur additionnelle 2</h4>
+            
+            <div class="form-group">
+                <label class="form-label">Sélectionnez la couleur</label>
+                <select name="additionalColor2" class="select-control" onchange="handleAdditionalColorChange(2)">
+                    <option value="">Sélectionnez une couleur</option>
+                    <option value="blanc">Blanc</option>
+                    <option value="noir">Noir</option>
+                    <option value="rouge">Rouge</option>
+                    <option value="bleu">Bleu</option>
+                    <option value="vert">Vert</option>
+                    <option value="jaune">Jaune</option>
+                    <option value="marron">Marron</option>
+                    <option value="autre">Autre</option>
+                </select>
+                <input type="text" name="additionalColorCustom2" class="form-control" 
+                       placeholder="Précisez la couleur" style="display: none; margin-top: 10px;">
+            </div>
+
+            <!-- Images pour couleur additionnelle 2 -->
+            <div class="color-images-section">
+                <label class="form-label">Images pour cette couleur (max 3)</label>
+                <div class="info-box small">
+                    <p>Ajoutez jusqu'à 3 images pour montrer le produit dans cette couleur</p>
+                </div>
+                
+                <!-- Image 1 -->
+                <div class="form-group">
+                    <label class="form-label">Image 1</label>
+                    <div class="image-upload">
+                        <div>📷</div>
+                        <div>Cliquez pour télécharger l'image</div>
+                        <input type="file" name="additionalColor2Image1" accept="image/*" onchange="previewImage(this, 'previewAdd2Img1')">
+                    </div>
+                    <div class="image-preview" id="previewAdd2Img1Container">
+                        <img id="previewAdd2Img1" src="" alt="Aperçu couleur additionnelle 2 image 1">
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="form-group">
+                    <label class="form-label">Image 2</label>
+                    <div class="image-upload">
+                        <div>📷</div>
+                        <div>Cliquez pour télécharger l'image</div>
+                        <input type="file" name="additionalColor2Image2" accept="image/*" onchange="previewImage(this, 'previewAdd2Img2')">
+                    </div>
+                    <div class="image-preview" id="previewAdd2Img2Container">
+                        <img id="previewAdd2Img2" src="" alt="Aperçu couleur additionnelle 2 image 2">
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="form-group">
+                    <label class="form-label">Image 3</label>
+                    <div class="image-upload">
+                        <div>📷</div>
+                        <div>Cliquez pour télécharger l'image</div>
+                        <input type="file" name="additionalColor2Image3" accept="image/*" onchange="previewImage(this, 'previewAdd2Img3')">
+                    </div>
+                    <div class="image-preview" id="previewAdd2Img3Container">
+                        <img id="previewAdd2Img3" src="" alt="Aperçu couleur additionnelle 2 image 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    <!-- Vendeur (auto-rempli) -->
+    <div class="form-group">
+        <div class="info-box">
+            <p><strong>Vendeur :</strong> <%= user.storeName %></p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                Cette information est automatiquement remplie avec le nom de votre magasin.
+            </p>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-submit" id="submitBtn">
+         Soumettre le produit
+    </button>
+</form>
+</div>
+<script>
+// متغيرات عالمية
+let totalImageCount = 1; // صورة رئيسية واحدة مطلوبة
+
+// دالة عرض الصورة
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const container = document.getElementById(previewId + 'Container');
+    const file = input.files[0];
+    
+    if (file) {
+        // التحقق من حجم الملف (5MB كحد أقصى)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Le fichier est trop volumineux. Maximum 5MB autorisé.');
+            input.value = '';
+            return;
+        }
+        
+        // التحقق من نوع الملف
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            alert('Format de fichier non supporté. Utilisez JPG, PNG ou GIF.');
+            input.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            container.style.display = 'block';
+            
+            // تحديث العداد
+            updateImageCounter();
+        }
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        container.style.display = 'none';
+        updateImageCounter();
+    }
+}
+
+// تحديث عداد الصور
+function updateImageCounter() {
+    let count = 0;
+    
+    // صور اللون الرئيسي
+    count += document.querySelectorAll('input[name^="mainImage"]:not([disabled])').filter(input => input.files.length > 0).length;
+    
+    // صور الألوان الإضافية
+    count += document.querySelectorAll('input[name^="additionalColor1Image"]:not([disabled])').filter(input => input.files.length > 0).length;
+    count += document.querySelectorAll('input[name^="additionalColor2Image"]:not([disabled])').filter(input => input.files.length > 0).length;
+    
+    totalImageCount = count;
+    document.getElementById('totalImagesCount').textContent = count;
+    
+    // تغيير اللون إذا تجاوز الحد
+    const counterElement = document.getElementById('totalImagesCount');
+    if (count > 9) {
+        counterElement.style.color = 'var(--accent)';
+        counterElement.parentElement.style.color = 'var(--accent)';
+    } else if (count > 6) {
+        counterElement.style.color = 'var(--warning)';
+        counterElement.parentElement.style.color = 'var(--warning)';
+    } else {
+        counterElement.style.color = 'var(--dark)';
+        counterElement.parentElement.style.color = 'var(--dark)';
+    }
+}
+
+
+function handleStyleChange() {
+    const styleSelect = document.getElementById('style');
+    const styleOther = document.getElementById('styleOther');
+    
+    if (styleSelect.value === 'autre') {
+        // إظهار حقل الإدخال وإجعله مطلوباً
+        styleOther.style.display = 'block';
+        styleOther.required = true;
+        
+        // إزالة المطلوب من الـ select مؤقتاً
+        styleSelect.required = false;
+        
+        // وضع التركيز على حقل الإدخال
+        setTimeout(() => {
+            styleOther.focus();
+        }, 100);
+    } else {
+       
+        styleOther.style.display = 'none';
+        styleOther.required = false;
+        styleOther.value = ''; // مسح القيمة
+        
+        
+        styleSelect.required = true;
+    }
+}
+
+// إضافة التحقق عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    // التحقق إذا كان هناك قيمة محفوظة
+    const styleSelect = document.getElementById('style');
+    if (styleSelect.value === 'autre') {
+        handleStyleChange();
+    }
+});
+
+function handleColorChange() {
+    const colorSelect = document.getElementById('color');
+    const colorCustom = document.getElementById('colorCustom');
+    colorCustom.style.display = colorSelect.value === 'autre' ? 'block' : 'none';
+}
+
+function handleAdditionalColorChange(index) {
+    const select = document.querySelector(`[name="additionalColor${index}"]`);
+    const custom = document.querySelector(`[name="additionalColorCustom${index}"]`);
+    custom.style.display = select.value === 'autre' ? 'block' : 'none';
+}
+
+function toggleAdditionalColors() {
+    const container = document.getElementById('additionalColorsContainer');
+    const hasColors = document.querySelector('input[name="hasAdditionalColors"]:checked').value === 'yes';
+    container.style.display = hasColors ? 'block' : 'none';
+    
+    // تحديث العداد
+    updateImageCounter();
+}
+
+// إضافة مستمعين للأحداث
+document.addEventListener('DOMContentLoaded', function() {
+    // مستمعين لجميع حقول الملفات
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            updateImageCounter();
+        });
+    });
+    
+    // التحقق من النموذج قبل الإرسال
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // التحقق من وجود صورة رئيسية واحدة على الأقل
+        const mainImage1 = document.querySelector('input[name="mainImage1"]').files.length;
+        if (mainImage1 === 0) {
+            alert('⚠️ Une image principale est requise pour la couleur principale.');
+            return false;
+        }
+        
+        // التحقق من الحد الأقصى للصور
+        if (totalImageCount > 9) {
+            alert(`❌ Maximum 9 images autorisées. Vous avez ${totalImageCount} images.`);
+            return false;
+        }
+        
+        // إذا كان هناك ألوان إضافية، تحقق من تحديد الألوان
+        const hasAdditionalColors = document.querySelector('input[name="hasAdditionalColors"]:checked').value === 'yes';
+        if (hasAdditionalColors) {
+            const color1 = document.querySelector('select[name="additionalColor1"]').value;
+            const color2 = document.querySelector('select[name="additionalColor2"]').value;
+            
+            if (!color1 && !color2) {
+                alert('⚠️ Veuillez sélectionner au moins une couleur additionnelle.');
+                return false;
+            }
+            
+            // إذا كان لون تم اختياره، تحقق من وجود صور له
+            if (color1) {
+                const color1Images = document.querySelectorAll('input[name^="additionalColor1Image"]:not([disabled])');
+                const hasColor1Images = Array.from(color1Images).some(input => input.files.length > 0);
+                
+                if (!hasColor1Images) {
+                    alert('⚠️ Veuillez ajouter au moins une image pour la couleur additionnelle 1.');
+                    return false;
+                }
+            }
+            
+            if (color2) {
+                const color2Images = document.querySelectorAll('input[name^="additionalColor2Image"]:not([disabled])');
+                const hasColor2Images = Array.from(color2Images).some(input => input.files.length > 0);
+                
+                if (!hasColor2Images) {
+                    alert('⚠️ Veuillez ajouter au moins une image pour la couleur additionnelle 2.');
+                    return false;
+                }
+            }
+        }
+        
+        // كل شيء جيد، إرسال النموذج
+        this.submit();
+    });
+});
+</script>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                &copy; 2025 veradecoration. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    <script>
+        // Catégories
+        const categories = {
+            meuble: ['salon', 'cuisine', 'bureau', 'chambre', 'chambre enfant', 'salle de bain', 'salle à manger'],
+            decoration: ['tous-int', 'Swing chair', 'tapis', 'tous-ext', 'Pots de fleurs', 'Lanterne de jardin']
+        };
+
+        let selectedBigCategory = '';
+        let selectedSmallCategory = '';
+
+        // Sélectionner grande catégorie
+        function selectBigCategory(category) {
+            selectedBigCategory = category;
+            
+            // Mettre à jour l'interface
+            document.querySelectorAll('#bigcategoryContainer .category-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.value === category) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            // Mettre à jour le champ caché
+            document.getElementById('bigcategory').value = category;
+            
+            // Générer les petites catégories
+            generateSmallCategories(category);
+        }
+
+        // Générer petites catégories
+        function generateSmallCategories(bigCategory) {
+            const container = document.getElementById('smallcategoryContainer');
+            container.innerHTML = '';
+            
+            if (categories[bigCategory]) {
+                categories[bigCategory].forEach(cat => {
+                    const option = document.createElement('div');
+                    option.className = 'category-option';
+                    option.dataset.value = cat;
+                    option.textContent = cat;
+                    option.onclick = () => selectSmallCategory(cat);
+                    container.appendChild(option);
+                });
+            }
+        }
+
+        // Sélectionner petite catégorie
+        function selectSmallCategory(category) {
+            selectedSmallCategory = category;
+            
+            // Mettre à jour l'interface
+            document.querySelectorAll('#smallcategoryContainer .category-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.value === category) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            // Mettre à jour le champ caché
+            document.getElementById('smallcategory').value = category;
+        }
+
+        // Prévisualisation d'image
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('previewImage');
+            const previewContainer = document.getElementById('imagePreview');
+            
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                }
+                
+                reader.readAsDataURL(file);
+                
+                // Vérifier la taille du fichier
+                if (file.size > 5 * 1024 * 1024) { // 5MB
+                    showNotification('Le fichier est trop volumineux (max 5MB)', 'error');
+                    e.target.value = '';
+                    previewContainer.style.display = 'none';
+                }
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        });
+
+        // Afficher une notification
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 300);
+            }, 3000);
+        }
+
+        // Validation du formulaire
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            const bigcategory = document.getElementById('bigcategory').value;
+            const smallcategory = document.getElementById('smallcategory').value;
+            const image = document.getElementById('image').files[0];
+            
+            // Vérifier les catégories
+            if (!bigcategory || !smallcategory) {
+                e.preventDefault();
+                showNotification('Veuillez sélectionner les catégories', 'error');
+                return false;
+            }
+            
+            // Vérifier l'image
+            if (!image) {
+                e.preventDefault();
+                showNotification('Veuillez télécharger une image', 'error');
+                return false;
+            }
+            
+            // Désactiver le bouton pour éviter les doubles soumissions
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+            
+            return true;
+        });
+
+        // Charger les catégories par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            //('Formulaire d\'ajout de produit chargé');
+            
+            
+            selectBigCategory('meuble'); // Sélectionner une grande catégorie par défaut
+        });
+
+        // Ville personnalisée
+        document.getElementById('city').addEventListener('change', function(e) {
+            if (e.target.value === 'Autre') {
+                const customCity = prompt('Veuillez entrer le nom de votre ville:');
+                if (customCity && customCity.trim() !== '') {
+                    // Créer une nouvelle option
+                    const option = document.createElement('option');
+                    option.value = customCity.trim();
+                    option.textContent = customCity.trim();
+                    e.target.appendChild(option);
+                    e.target.value = customCity.trim();
+                } else {
+                    e.target.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

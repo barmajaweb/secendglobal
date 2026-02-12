@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vira Decoration</title>
+    <style>
+           .logo {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1c2b6c;
+  cursor: pointer;
+  animation: logoEntrance 0.8s ease-out forwards;
+  transition: transform 0.4s ease, color 0.3s ease;
+
+}
+.logo img {
+  width: 150px;
+  height: auto;
+  transition: transform 0.7s ease;
+}
+.logo img:hover {
+  transform: scale(1.1);
+}
+        :root {
+            --primary: #014537;
+            --secondary: #C9A349;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #3498db;
+            --light: #ecf0f1;
+            --dark: #014537;
+            --gray: #95a5a6;
+            --light-gray: #f8f9fa;
+            --dark-gray: #7f8c8d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========================================
+           HEADER
+           ======================================== */
+        .navbar {
+            background-color: white;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .navbar-brand span {
+            color: var(--secondary);
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background-color: var(--light);
+            color: var(--secondary);
+        }
+
+        /* ========================================
+           BOUTONS
+           ======================================== */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            outline: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #b8933a;
+        }
+
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #d5dbdb;
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* ========================================
+           FORMULAIRE
+           ======================================== */
+        .edit-form {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(1, 69, 55, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background-color: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(201, 163, 73, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23014537' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px;
+            padding-right: 2.5rem;
+        }
+
+        /* ========================================
+           IMAGE
+           ======================================== */
+        .image-preview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            border: 1px solid #ddd;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .current-image {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* ========================================
+           ACTIONS
+           ======================================== */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 576px) {
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+
+        /* ========================================
+           ALERTES
+           ======================================== */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        /* ========================================
+           NOTIFICATIONS
+           ======================================== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--accent);
+        }
+    </style>
+    <style>
+        /* ========== STYLES ========== */
+        :root {
+            --primary: #014537;
+            --secondary: #C9A349;
+            --accent: #C93F29;
+            --success: #2E8B57;
+            --warning: #FF8C00;
+            --gray: #888888;
+            --light: #F5F5F5;
+            --dark: #333333;
+            --radius: 12px;
+            --shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f6f3f1;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 3px solid var(--secondary);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        
+
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .navbar-nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-section h3 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .section-info {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .fixed-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .image-slot-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .slot-header {
+            padding: 12px 15px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .slot-primary {
+            background: linear-gradient(135deg, var(--primary), #016048);
+        }
+
+        .slot-secondary {
+            background: linear-gradient(135deg, var(--secondary), #b48c3a);
+        }
+
+        .slot-content {
+            padding: 20px;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .slot-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .empty-slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #ccc;
+            margin-bottom: 15px;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .empty-text {
+            font-size: 1rem;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .empty-subtext {
+            font-size: 0.8rem;
+            color: #bbb;
+            margin-top: 5px;
+        }
+
+        .slot-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+        }
+
+        .edit-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--accent);
+            color: white;
+        }
+
+        .add-btn {
+            background: var(--success);
+            color: white;
+            width: 100%;
+        }
+
+        .color-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .color-card.new-color {
+            background: white;
+            border: 2px dashed var(--secondary);
+        }
+
+        .color-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .color-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-badge {
+            font-size: 1.5rem;
+        }
+
+        .remove-color-btn {
+            padding: 8px 16px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-control, .select-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .summary-card {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), #016048);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .summary-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+        }
+
+        .stat-row.total {
+            background: var(--secondary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .image-preview.hidden {
+            display: none;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--accent);
+        }
+
+        .notification.info {
+            background: var(--primary);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .fixed-slots-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="logo"><img src="/uploads/logo.png" alt=""></div>
+            <ul class="navbar-nav">
+                <li><a href="/dashboard" class="nav-link">Tableau de bord</a></li>
+                <li><a href="/add-product" class="nav-link">Ajouter Produit</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="edit-form">
+            <div class="page-header">
+                <h1>Modifier le produit</h1>
+                <a href="/dashboard" class="btn btn-secondary">← Retour</a>
+            </div>
+
+            <!-- Messages d'alerte -->
+            <% if (error) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success">
+                    <%= success %>
+                </div>
+            <% } %>
+
+            <form method="POST" enctype="multipart/form-data" id="editForm">
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                
+                <!-- ========== SECTION 1: INFORMATIONS DE BASE ========== -->
+                <div class="form-section">
+                    <h3>📝 Informations de base</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nom du produit *</label>
+                            <input type="text" id="name" name="name" class="form-control" 
+                                   value="<%= product.name %>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Prix (DH) *</label>
+                            <input type="number" id="price" name="price" class="form-control" 
+                                   value="<%= product.price %>" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="size">Taille *</label>
+                            <select id="size" name="size" class="form-control" required>
+                                <option value="">Sélectionnez une taille</option>
+                                <option value="petit" <%= product.size === 'petit' ? 'selected' : '' %>> Petit</option>
+                                <option value="moyen" <%= product.size === 'moyen' ? 'selected' : '' %>> Moyen</option>
+                                <option value="grand" <%= product.size === 'grand' ? 'selected' : '' %>> Grand</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">Ville *</label>
+                            <select id="city" name="city" class="form-control" required>
+                                <option value="">Sélectionner une ville</option>
+                                <% moroccanCities.forEach(city => { %>
+                                    <option value="<%= city %>" <%= product.city === city ? 'selected' : '' %>>
+                                        <%= city %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== SECTION 2: CATÉGORIES ========== -->
+                <div class="form-section">
+                    <h3>🏷️ Catégories</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bigcategory">Grande catégorie *</label>
+                            <select id="bigcategory" name="bigcategory" class="form-control" required onchange="updateSmallCategory()">
+                                <option value="">Sélectionner</option>
+                                <option value="meuble" <%= product.bigcategory === 'meuble' ? 'selected' : '' %>>Meuble</option>
+                                <option value="decoration" <%= product.bigcategory === 'decoration' ? 'selected' : '' %>>Décoration</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="smallcategory">Petite catégorie *</label>
+                            <select id="smallcategory" name="smallcategory" class="form-control" required>
+                                <option value="">Sélectionner</option>
+                                <% if (product.bigcategory === 'meuble' && categories && categories.meuble) { %>
+                                    <% categories.meuble.forEach(cat => { %>
+                                        <option value="<%= cat %>" <%= product.smallcategory === cat ? 'selected' : '' %>>
+                                            <%= cat %>
+                                        </option>
+                                    <% }) %>
+                                <% } else if (product.bigcategory === 'decoration' && categories && categories.decoration) { %>
+                                    <% categories.decoration.forEach(cat => { %>
+                                        <option value="<%= cat %>" <%= product.smallcategory === cat ? 'selected' : '' %>>
+                                            <%= cat %>
+                                        </option>
+                                    <% }) %>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Catégorie spécifique *</label>
+                        
+                           <input value="<%= product.category %>" type="text" name="category" class="form-control" required placeholder="ex:salon moderne"  >
+                    </div>
+                </div>
+
+                <!-- ========== SECTION 3: STYLE ET COULEUR PRINCIPALE ========== -->
+                <div class="form-section">
+                    <h3>🎨 Style et couleur principale</h3>
+                    
+                    <div class="form-group">
+                        <label for="style">Style</label>
+                        <div class="style-container">
+                            <select id="style" name="style" class="form-control" onchange="handleStyleChange()">
+                                <option value="">Sélectionnez un style</option>
+                                <option value="moderne" <%= product.style === 'moderne' ? 'selected' : '' %>>Moderne</option>
+                                <option value="traditionnel" <%= product.style === 'traditionnel' ? 'selected' : '' %>>Traditionnel</option>
+                                <option value="classique" <%= product.style === 'classique' ? 'selected' : '' %>>Classique</option>
+                                <option value="contemporain" <%= product.style === 'contemporain' ? 'selected' : '' %>>Contemporain</option>
+                                <option value="industriel" <%= product.style === 'industriel' ? 'selected' : '' %>>Industriel</option>
+                                <option value="rustique" <%= product.style === 'rustique' ? 'selected' : '' %>>Rustique</option>
+                                <option value="autre" <%= product.style && !['moderne','traditionnel','classique','contemporain','industriel','rustique'].includes(product.style) ? 'selected' : '' %>>Autre</option>
+                            </select>
+                            <input type="text" id="styleOther" name="styleOther" class="form-control" 
+                                   placeholder="Précisez le style" 
+                                   style="display: <%= product.style && !['moderne','traditionnel','classique','contemporain','industriel','rustique'].includes(product.style) ? 'block' : 'none' %>; margin-top: 10px;"
+                                   value="<%= product.style && !['moderne','traditionnel','classique','contemporain','industriel','rustique'].includes(product.style) ? product.style : '' %>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="color">Couleur principale *</label>
+                        <div class="color-container">
+                            <select id="color" name="color" class="form-control" onchange="handleColorChange()" required>
+                                <option value="">Sélectionnez une couleur</option>
+                                <option value="blanc" <%= product.color === 'blanc' ? 'selected' : '' %>>Blanc</option>
+                                <option value="noir" <%= product.color === 'noir' ? 'selected' : '' %>>Noir</option>
+                                <option value="rouge" <%= product.color === 'rouge' ? 'selected' : '' %>>Rouge</option>
+                                <option value="bleu" <%= product.color === 'bleu' ? 'selected' : '' %>>Bleu</option>
+                                <option value="vert" <%= product.color === 'vert' ? 'selected' : '' %>>Vert</option>
+                                <option value="jaune" <%= product.color === 'jaune' ? 'selected' : '' %>>Jaune</option>
+                                <option value="marron" <%= product.color === 'marron' ? 'selected' : '' %>>Marron</option>
+                                <option value="gris" <%= product.color === 'gris' ? 'selected' : '' %>>Gris</option>
+                                <option value="beige" <%= product.color === 'beige' ? 'selected' : '' %>>Beige</option>
+                                <option value="doré" <%= product.color === 'doré' ? 'selected' : '' %>>Doré</option>
+                                <option value="argenté" <%= product.color === 'argenté' ? 'selected' : '' %>>Argenté</option>
+                                <option value="violet" <%= product.color === 'violet' ? 'selected' : '' %>>Violet</option>
+                                <option value="orange" <%= product.color === 'orange' ? 'selected' : '' %>>Orange</option>
+                                <option value="rose" <%= product.color === 'rose' ? 'selected' : '' %>>Rose</option>
+                                <option value="autre" <%= product.color && !['blanc','noir','rouge','bleu','vert','jaune','marron','gris','beige','doré','argenté','violet','orange','rose'].includes(product.color) ? 'selected' : '' %>>Autre couleur</option>
+                            </select>
+                            <input type="text" id="colorCustom" name="colorCustom" class="form-control" 
+                                   placeholder="Précisez la couleur" 
+                                   style="display: <%= product.color && !['blanc','noir','rouge','bleu','vert','jaune','marron','gris','beige','doré','argenté','violet','orange','rose'].includes(product.color) ? 'block' : 'none' %>; margin-top: 10px;"
+                                   value="<%= product.color && !['blanc','noir','rouge','bleu','vert','jaune','marron','gris','beige','doré','argenté','violet','orange','rose'].includes(product.color) ? product.color : '' %>">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== SECTION 4: IMAGES PRINCIPALES - 3 EMPLACEMENTS FIXES (1,2,3) ========== -->
+                <div class="form-section">
+                    <h3>📸 Images - Couleur principale: <span style="color: var(--primary);"><%= product.color || 'Non spécifiée' %></span></h3>
+                    <p class="section-info">
+                        <strong>⚠️ 3 emplacements d'images fixes</strong> - mainImage1 (Principale), mainImage2, mainImage3
+                    </p>
+                    
+                    <div class="fixed-slots-grid" id="mainImagesGrid">
+                        <% 
+                        const mainSlots = [1, 2, 3];
+                        mainSlots.forEach((slot) => {
+                            const index = slot - 1;
+                            const hasImage = product.mainImages && product.mainImages[index];
+                        %>
+                            <div class="image-slot-card" id="mainImageSlot-<%= slot %>">
+                                <div class="slot-header <%= slot === 1 ? 'slot-primary' : 'slot-secondary' %>">
+                                    <%= slot === 1 ? '🖼️ Image Principale (mainImage1)' : `📷 Image ${slot} (mainImage${slot})` %>
+                                </div>
+                                
+                                <div class="slot-content">
+                                    <% if (hasImage) { %>
+                                        <!-- Image existante -->
+                                        <div class="image-wrapper">
+                                            <img src="<%= product.mainImages[index] %>" alt="Image <%= slot %>" 
+                                                 class="slot-image" id="mainImagePreview-<%= slot %>">
+                                        </div>
+                                        
+                                        <div class="slot-actions">
+                                            <label for="mainImage<%= slot %>" class="action-btn edit-btn">
+                                                ✏️ Modifier
+                                            </label>
+                                            <button type="button" class="action-btn delete-btn" 
+                                                    onclick="deleteMainImage('<%= slot %>')">
+                                                🗑️ Supprimer
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- ✅ Hidden inputs pour garder trace des images existantes -->
+                                        <input type="hidden" name="existingMainImages[]" value="<%= product.mainImages[index] %>">
+                                        <input type="hidden" name="existingMainImages<%= index %>" value="<%= product.mainImages[index] %>">
+                                    <% } else { %>
+                                        <!-- Emplacement vide -->
+                                        <div class="empty-slot">
+                                            <div class="empty-icon">📸</div>
+                                            <div class="empty-text">Aucune image</div>
+                                            <div class="empty-subtext">Emplacement <%= slot %></div>
+                                        </div>
+                                        
+                                        <div class="slot-actions">
+                                            <label for="mainImage<%= slot %>" class="action-btn add-btn">
+                                                ➕ Ajouter une image
+                                            </label>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <!-- Input file pour ajouter/modifier une image -->
+                                    <input type="file" id="mainImage<%= slot %>" name="mainImage<%= slot %>" 
+                                           accept="image/*" style="display: none;" 
+                                           onchange="previewMainImage(this, '<%= slot %>')">
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <!-- ========== SECTION 5: COULEURS ADDITIONNELLES ========== -->
+                <div class="form-section">
+                    <h3>➕ Couleurs additionnelles</h3>
+                    <p class="section-info">
+                        <strong>⚠️ Maximum 2 couleurs additionnelles</strong>, chacune avec <strong>3 emplacements d'images fixes (1,2,3)</strong>.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="hasAdditionalColors" name="hasAdditionalColors" value="yes" 
+                                   <%= product.hasAdditionalColors ? 'checked' : '' %>
+                                   onchange="toggleAdditionalColors()">
+                            <span>Ce produit a d'autres couleurs disponibles</span>
+                        </label>
+                    </div>
+
+                    <div id="additionalColorsContainer" style="display: <%= product.hasAdditionalColors ? 'block' : 'none' %>;">
+                        
+                        <!-- ===== COULEURS ADDITIONNELLES EXISTANTES ===== -->
+                        <% if (product.additionalColors && product.additionalColors.length > 0) { %>
+                            <% product.additionalColors.forEach((color, colorIndex) => { %>
+                                <div class="color-card" id="existingColor-<%= colorIndex %>">
+                                    <div class="color-card-header">
+                                        <div class="color-title">
+                                            <span class="color-badge">🎨</span>
+                                            <h4>Couleur: <strong><%= color.color %></strong></h4>
+                                        </div>
+                                        <button type="button" class="remove-color-btn" 
+                                                onclick="removeExistingColor('<%= colorIndex %>')" 
+                                                title="Supprimer cette couleur">
+                                            🗑️ Supprimer la couleur
+                                        </button>
+                                    </div>
+                                    
+                                    <input type="hidden" name="existingAdditionalColorName[]" value="<%= color.color %>">
+                                    <input type="hidden" name="existingAdditionalColorIndex[]" value="<%= colorIndex %>">
+                                    
+                                    <!-- 3 emplacements d'images fixes pour cette couleur (1,2,3) -->
+                                    <h5>Images - 3 emplacements fixes</h5>
+                                    <div class="fixed-slots-grid">
+                                        <% 
+                                        const colorSlots = [1, 2, 3];
+                                        colorSlots.forEach((slot) => {
+                                            const imgIndex = slot - 1;
+                                            const hasImage = color.images && color.images[imgIndex];
+                                        %>
+                                            <div class="image-slot-card" id="color-<%= colorIndex %>-slot-<%= slot %>">
+                                                <div class="slot-header slot-secondary">
+                                                    📷 Image <%= slot %>
+                                                </div>
+                                                
+                                                <div class="slot-content">
+                                                    <% if (hasImage) { %>
+                                                        <!-- Image existante -->
+                                                        <div class="image-wrapper">
+                                                            <img src="<%= color.images[imgIndex] %>" alt="Image <%= slot %>" 
+                                                                 class="slot-image" id="color<%= colorIndex %>ImagePreview-<%= slot %>">
+                                                        </div>
+                                                        
+                                                        <div class="slot-actions">
+                                                            <label for="color<%= colorIndex %>Image<%= slot %>" class="action-btn edit-btn">
+                                                                ✏️ Modifier
+                                                            </label>
+                                                            <button type="button" class="action-btn delete-btn" 
+                                                                    onclick="deleteColorImage('<%= colorIndex %>', '<%= slot %>')">
+                                                                🗑️ Supprimer
+                                                            </button>
+                                                        </div>
+                                                        
+                                                        <!-- ✅ Hidden inputs pour garder trace des images existantes -->
+                                                        <input type="hidden" name="existingAdditionalColorImages[<%= colorIndex %>][]" 
+                                                               value="<%= color.images[imgIndex] %>">
+                                                        <input type="hidden" name="existingColor<%= colorIndex %>Image<%= slot %>" 
+                                                               value="<%= color.images[imgIndex] %>">
+                                                    <% } else { %>
+                                                        <!-- Emplacement vide -->
+                                                        <div class="empty-slot">
+                                                            <div class="empty-icon">📸</div>
+                                                            <div class="empty-text">Aucune image</div>
+                                                            <div class="empty-subtext">Emplacement <%= slot %></div>
+                                                        </div>
+                                                        
+                                                        <div class="slot-actions">
+                                                            <label for="color<%= colorIndex %>Image<%= slot %>" class="action-btn add-btn">
+                                                                ➕ Ajouter une image
+                                                            </label>
+                                                        </div>
+                                                    <% } %>
+                                                    
+                                                    <!-- Input file pour ajouter/modifier une image -->
+                                                    <input type="file" id="color<%= colorIndex %>Image<%= slot %>" 
+                                                           name="color<%= colorIndex %>Image<%= slot %>" 
+                                                           accept="image/*" style="display: none;"
+                                                           onchange="previewColorImage(this, '<%= colorIndex %>', '<%= slot %>')">
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } %>
+
+                        <!-- ===== NOUVELLE COULEUR ADDITIONNELLE 1 ===== -->
+                        <div id="newColor1" class="color-card new-color" 
+                             style="<%= product.additionalColors && product.additionalColors.length >= 1 ? 'display: none;' : '' %>">
+                            <div class="color-card-header">
+                                <div class="color-title">
+                                    <span class="color-badge">🆕</span>
+                                    <h4>Nouvelle couleur 1</h4>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="additionalColor1">Sélectionnez une couleur</label>
+                                <div class="color-select-container">
+                                    <select id="additionalColor1" name="additionalColor1" class="form-control" 
+                                            onchange="handleAdditionalColorChange(1)">
+                                        <option value="">Choisir une couleur</option>
+                                        <option value="blanc">Blanc</option>
+                                        <option value="noir">Noir</option>
+                                        <option value="rouge">Rouge</option>
+                                        <option value="bleu">Bleu</option>
+                                        <option value="vert">Vert</option>
+                                        <option value="jaune">Jaune</option>
+                                        <option value="marron">Marron</option>
+                                        <option value="gris">Gris</option>
+                                        <option value="beige">Beige</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                    <input type="text" id="additionalColorCustom1" name="additionalColorCustom1" 
+                                           class="form-control" placeholder="Précisez la couleur" 
+                                           style="display: none; margin-top: 10px;">
+                                </div>
+                            </div>
+
+                            <!-- 3 emplacements d'images fixes pour la nouvelle couleur -->
+                            <h5>Images - 3 emplacements fixes</h5>
+                            <div class="fixed-slots-grid">
+                                <% for (let i = 1; i <= 3; i++) { %>
+                                    <div class="image-slot-card">
+                                        <div class="slot-header slot-secondary">
+                                            📷 Image <%= i %>
+                                        </div>
+                                        <div class="slot-content">
+                                            <div class="empty-slot">
+                                                <div class="empty-icon">📸</div>
+                                                <div class="empty-text">Aucune image</div>
+                                                <div class="empty-subtext">Emplacement <%= i %></div>
+                                            </div>
+                                            <div class="slot-actions">
+                                                <label for="additionalColor1Image<%= i %>" class="action-btn add-btn">
+                                                    ➕ Ajouter
+                                                </label>
+                                            </div>
+                                            <!-- Input file pour ajouter une image -->
+                                            <input type="file" id="additionalColor1Image<%= i %>" 
+                                                   name="additionalColor1Image<%= i %>" 
+                                                   accept="image/*" style="display: none;"
+                                                   onchange="previewNewColorImage(this, 'color1Preview<%= i %>', 1, <%= i %>)">
+                                            <img id="color1Preview<%= i %>" class="image-preview hidden" src="" alt="Aperçu">
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- ===== NOUVELLE COULEUR ADDITIONNELLE 2 ===== -->
+                        <div id="newColor2" class="color-card new-color" 
+                             style="<%= product.additionalColors && product.additionalColors.length >= 2 ? 'display: none;' : '' %>">
+                            <div class="color-card-header">
+                                <div class="color-title">
+                                    <span class="color-badge">🆕</span>
+                                    <h4>Nouvelle couleur 2</h4>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="additionalColor2">Sélectionnez une couleur</label>
+                                <div class="color-select-container">
+                                    <select id="additionalColor2" name="additionalColor2" class="form-control" 
+                                            onchange="handleAdditionalColorChange(2)">
+                                        <option value="">Choisir une couleur</option>
+                                        <option value="blanc">Blanc</option>
+                                        <option value="noir">Noir</option>
+                                        <option value="rouge">Rouge</option>
+                                        <option value="bleu">Bleu</option>
+                                        <option value="vert">Vert</option>
+                                        <option value="jaune">Jaune</option>
+                                        <option value="marron">Marron</option>
+                                        <option value="gris">Gris</option>
+                                        <option value="beige">Beige</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                    <input type="text" id="additionalColorCustom2" name="additionalColorCustom2" 
+                                           class="form-control" placeholder="Précisez la couleur" 
+                                           style="display: none; margin-top: 10px;">
+                                </div>
+                            </div>
+
+                            <!-- 3 emplacements d'images fixes pour la nouvelle couleur -->
+                            <h5>Images - 3 emplacements fixes</h5>
+                            <div class="fixed-slots-grid">
+                                <% for (let i = 1; i <= 3; i++) { %>
+                                    <div class="image-slot-card">
+                                        <div class="slot-header slot-secondary">
+                                            📷 Image <%= i %>
+                                        </div>
+                                        <div class="slot-content">
+                                            <div class="empty-slot">
+                                                <div class="empty-icon">📸</div>
+                                                <div class="empty-text">Aucune image</div>
+                                                <div class="empty-subtext">Emplacement <%= i %></div>
+                                            </div>
+                                            <div class="slot-actions">
+                                                <label for="additionalColor2Image<%= i %>" class="action-btn add-btn">
+                                                    ➕ Ajouter
+                                                </label>
+                                            </div>
+                                            <!-- Input file pour ajouter une image -->
+                                            <input type="file" id="additionalColor2Image<%= i %>" 
+                                                   name="additionalColor2Image<%= i %>" 
+                                                   accept="image/*" style="display: none;"
+                                                   onchange="previewNewColorImage(this, 'color2Preview<%= i %>', 2, <%= i %>)">
+                                            <img id="color2Preview<%= i %>" class="image-preview hidden" src="" alt="Aperçu">
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <!-- Résumé des images -->
+                        <div class="summary-card">
+                            <h4>📊 Résumé des images</h4>
+                            <div class="summary-stats">
+                                <div class="stat-row">
+                                    <span class="stat-label">Couleur principale:</span>
+                                    <span class="stat-value" id="mainImageCount">
+                                        <%= product.mainImages ? product.mainImages.filter(img => img).length : 0 %>/3
+                                    </span>
+                                </div>
+                                <% if (product.additionalColors && product.additionalColors.length > 0) { %>
+                                    <% product.additionalColors.forEach((color, index) => { %>
+                                        <div class="stat-row">
+                                            <span class="stat-label">Couleur <%= color.color %>:</span>
+                                            <span class="stat-value">
+                                                <%= color.images ? color.images.filter(img => img).length : 0 %>/3
+                                            </span>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+                                <div class="stat-row total">
+                                    <span class="stat-label">Total:</span>
+                                    <span class="stat-value" id="totalImageCount">
+                                        <% 
+                                            let total = product.mainImages ? product.mainImages.filter(img => img).length : 0;
+                                            if (product.additionalColors) {
+                                                product.additionalColors.forEach(color => {
+                                                    total += color.images ? color.images.filter(img => img).length : 0;
+                                                });
+                                            }
+                                        %>
+                                        <%= total %>/9
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== SECTION 6: DESCRIPTION ========== -->
+                <div class="form-section">
+                    <h3>📄 Description</h3>
+                    
+                    <div class="form-group">
+                        <label for="description">Description du produit *</label>
+                        <textarea id="description" name="description" class="form-control" rows="5" required 
+                                  maxlength="500"><%= product.description || '' %></textarea>
+                        <small class="form-text">Maximum 500 caractères</small>
+                        <div class="char-counter" id="descriptionCounter">0/500</div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="form-actions">
+                    <button type="button" onclick="confirmDelete()" class="btn btn-danger">
+                        🗑️ Supprimer ce produit
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Enregistrer les modifications
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    
+
+    <script>
+        // ========== 1. PRÉVISUALISATION IMAGES PRINCIPALES ==========
+        function previewMainImage(input, slotNumber) {
+            const preview = document.getElementById(`mainImagePreview-${slotNumber}`);
+            const card = document.getElementById(`mainImageSlot-${slotNumber}`);
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (preview) {
+                        preview.src = e.target.result;
+                    } else {
+                        const imageWrapper = document.createElement('div');
+                        imageWrapper.className = 'image-wrapper';
+                        imageWrapper.innerHTML = `<img src="${e.target.result}" alt="Image ${slotNumber}" class="slot-image" id="mainImagePreview-${slotNumber}">`;
+                        
+                        const emptySlot = card.querySelector('.empty-slot');
+                        if (emptySlot) {
+                            emptySlot.replaceWith(imageWrapper);
+                        }
+                    }
+                    
+                    const slotActions = card.querySelector('.slot-actions');
+                    slotActions.innerHTML = `
+                        <label for="mainImage${slotNumber}" class="action-btn edit-btn">✏️ Modifier</label>
+                        <button type="button" class="action-btn delete-btn" onclick="deleteMainImage('${slotNumber}')">🗑️ Supprimer</button>
+                    `;
+                    
+                    showNotification('Image modifiée avec succès', 'success');
+                    updateImageCounters();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // ========== 2. SUPPRESSION IMAGES PRINCIPALES ==========
+        function deleteMainImage(slotNumber) {
+            if (!confirm('Supprimer cette image ?')) return;
+            
+            const card = document.getElementById(`mainImageSlot-${slotNumber}`);
+            const imageWrapper = card.querySelector('.image-wrapper');
+            const input = document.getElementById(`mainImage${slotNumber}`);
+            
+            if (input) input.value = '';
+            if (imageWrapper) imageWrapper.remove();
+            
+            const emptySlot = document.createElement('div');
+            emptySlot.className = 'empty-slot';
+            emptySlot.innerHTML = `
+                <div class="empty-icon">📸</div>
+                <div class="empty-text">Aucune image</div>
+                <div class="empty-subtext">Emplacement ${slotNumber}</div>
+            `;
+            
+            const slotContent = card.querySelector('.slot-content');
+            const slotActions = card.querySelector('.slot-actions');
+            slotContent.insertBefore(emptySlot, slotActions);
+            
+            slotActions.innerHTML = `
+                <label for="mainImage${slotNumber}" class="action-btn add-btn">➕ Ajouter une image</label>
+            `;
+            
+            // ✅ Supprimer les hidden inputs
+            const hiddenInputs = card.querySelectorAll('input[type="hidden"][name^="existingMainImages"]');
+            hiddenInputs.forEach(input => input.remove());
+            
+            showNotification('Image supprimée', 'info');
+            updateImageCounters();
+        }
+
+        // ========== 3. PRÉVISUALISATION IMAGES COULEURS EXISTANTES ==========
+        function previewColorImage(input, colorIndex, slotNumber) {
+            const preview = document.getElementById(`color${colorIndex}ImagePreview-${slotNumber}`);
+            const card = document.getElementById(`color-${colorIndex}-slot-${slotNumber}`);
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (preview) {
+                        preview.src = e.target.result;
+                    } else {
+                        const imageWrapper = document.createElement('div');
+                        imageWrapper.className = 'image-wrapper';
+                        imageWrapper.innerHTML = `<img src="${e.target.result}" alt="Image ${slotNumber}" class="slot-image" id="color${colorIndex}ImagePreview-${slotNumber}">`;
+                        
+                        const emptySlot = card.querySelector('.empty-slot');
+                        if (emptySlot) {
+                            emptySlot.replaceWith(imageWrapper);
+                        }
+                    }
+                    
+                    const slotActions = card.querySelector('.slot-actions');
+                    slotActions.innerHTML = `
+                        <label for="color${colorIndex}Image${slotNumber}" class="action-btn edit-btn">✏️ Modifier</label>
+                        <button type="button" class="action-btn delete-btn" onclick="deleteColorImage('${colorIndex}', '${slotNumber}')">🗑️ Supprimer</button>
+                    `;
+                    
+                    showNotification('Image modifiée avec succès', 'success');
+                    updateImageCounters();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // ========== 4. SUPPRESSION IMAGES COULEURS EXISTANTES ==========
+        function deleteColorImage(colorIndex, slotNumber) {
+            if (!confirm('Supprimer cette image ?')) return;
+            
+            const card = document.getElementById(`color-${colorIndex}-slot-${slotNumber}`);
+            const imageWrapper = card.querySelector('.image-wrapper');
+            const input = document.getElementById(`color${colorIndex}Image${slotNumber}`);
+            
+            if (input) input.value = '';
+            if (imageWrapper) imageWrapper.remove();
+            
+            const emptySlot = document.createElement('div');
+            emptySlot.className = 'empty-slot';
+            emptySlot.innerHTML = `
+                <div class="empty-icon">📸</div>
+                <div class="empty-text">Aucune image</div>
+                <div class="empty-subtext">Emplacement ${slotNumber}</div>
+            `;
+            
+            const slotContent = card.querySelector('.slot-content');
+            const slotActions = card.querySelector('.slot-actions');
+            slotContent.insertBefore(emptySlot, slotActions);
+            
+            slotActions.innerHTML = `
+                <label for="color${colorIndex}Image${slotNumber}" class="action-btn add-btn">➕ Ajouter</label>
+            `;
+            
+            // ✅ Supprimer les hidden inputs
+            const hiddenInputs = card.querySelectorAll('input[type="hidden"][name^="existingColor"], input[type="hidden"][name^="existingAdditionalColorImages"]');
+            hiddenInputs.forEach(input => input.remove());
+            
+            showNotification('Image supprimée', 'info');
+            updateImageCounters();
+        }
+
+        // ========== 5. PRÉVISUALISATION NOUVELLES COULEURS ==========
+        function previewNewColorImage(input, previewId, colorNum, imgIndex) {
+            const preview = document.getElementById(previewId);
+            const card = input.closest('.image-slot-card');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    
+                    const emptySlot = card.querySelector('.empty-slot');
+                    if (emptySlot) {
+                        emptySlot.style.display = 'none';
+                    }
+                    
+                    preview.style.display = 'block';
+                    
+                    const slotActions = card.querySelector('.slot-actions');
+                    slotActions.innerHTML = `
+                        <label for="additionalColor${colorNum}Image${imgIndex}" class="action-btn edit-btn">✏️ Modifier</label>
+                        <button type="button" class="action-btn delete-btn" onclick="deleteNewColorImage(${colorNum}, ${imgIndex})">🗑️ Supprimer</button>
+                    `;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // ========== 6. SUPPRESSION IMAGES NOUVELLES COULEURS ==========
+        function deleteNewColorImage(colorNum, imgIndex) {
+            if (!confirm('Supprimer cette image ?')) return;
+            
+            const card = document.querySelector(`#newColor${colorNum} .image-slot-card:nth-child(${imgIndex})`);
+            const preview = document.getElementById(`color${colorNum}Preview${imgIndex}`);
+            const input = document.getElementById(`additionalColor${colorNum}Image${imgIndex}`);
+            
+            if (input) input.value = '';
+            
+            preview.src = '';
+            preview.classList.add('hidden');
+            
+            const emptySlot = card.querySelector('.empty-slot');
+            if (emptySlot) {
+                emptySlot.style.display = 'flex';
+            }
+            
+            const slotActions = card.querySelector('.slot-actions');
+            slotActions.innerHTML = `
+                <label for="additionalColor${colorNum}Image${imgIndex}" class="action-btn add-btn">➕ Ajouter</label>
+            `;
+            
+            showNotification('Image supprimée', 'info');
+        }
+
+        // ========== 7. SUPPRESSION COULEUR EXISTANTE ==========
+        function removeExistingColor(colorIndex) {
+            if (!confirm('Supprimer cette couleur additionnelle ? Toutes les images seront supprimées.')) return;
+            
+            const element = document.getElementById(`existingColor-${colorIndex}`);
+            if (element) {
+                element.remove();
+                showNotification('Couleur supprimée', 'info');
+                updateImageCounters();
+                
+                const additionalColorsCount = document.querySelectorAll('[id^="existingColor-"]').length;
+                if (additionalColorsCount < 1) document.getElementById('newColor1').style.display = 'block';
+                if (additionalColorsCount < 2) document.getElementById('newColor2').style.display = 'block';
+            }
+        }
+
+        // ========== 8. COMPTEURS D'IMAGES ==========
+        function updateImageCounters() {
+            const mainImages = document.querySelectorAll('#mainImagesGrid .slot-image').length;
+            const mainCounter = document.getElementById('mainImageCount');
+            if (mainCounter) mainCounter.textContent = `${mainImages}/3`;
+            
+            let total = mainImages;
+            total += document.querySelectorAll('[id^="color-"] .slot-image').length;
+            
+            const totalCounter = document.getElementById('totalImageCount');
+            if (totalCounter) {
+                totalCounter.textContent = `${total}/9`;
+            }
+        }
+
+        // ========== 9. GESTION DES STYLES ==========
+        function handleStyleChange() {
+            const styleSelect = document.getElementById('style');
+            const styleOther = document.getElementById('styleOther');
+            styleOther.style.display = styleSelect.value === 'autre' ? 'block' : 'none';
+        }
+
+        function handleColorChange() {
+            const colorSelect = document.getElementById('color');
+            const colorCustom = document.getElementById('colorCustom');
+            colorCustom.style.display = colorSelect.value === 'autre' ? 'block' : 'none';
+        }
+
+        function handleAdditionalColorChange(index) {
+            const select = document.getElementById(`additionalColor${index}`);
+            const custom = document.getElementById(`additionalColorCustom${index}`);
+            if (select && custom) {
+                custom.style.display = select.value === 'autre' ? 'block' : 'none';
+            }
+        }
+
+        function toggleAdditionalColors() {
+            const container = document.getElementById('additionalColorsContainer');
+            const checkbox = document.getElementById('hasAdditionalColors');
+            container.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        // ========== 10. CATÉGORIES ==========
+        function updateSmallCategory() {
+            const bigCat = document.getElementById('bigcategory').value;
+            const smallCatSelect = document.getElementById('smallcategory');
+            
+            smallCatSelect.innerHTML = '<option value="">Sélectionner</option>';
+            
+            if (bigCat === 'meuble') {
+                <% if (categories && categories.meuble) { %>
+                    <% categories.meuble.forEach(cat => { %>
+                        smallCatSelect.innerHTML += `<option value="<%= cat %>"><%= cat %></option>`;
+                    <% }) %>
+                <% } %>
+            } else if (bigCat === 'decoration') {
+                <% if (categories && categories.decoration) { %>
+                    <% categories.decoration.forEach(cat => { %>
+                        smallCatSelect.innerHTML += `<option value="<%= cat %>"><%= cat %></option>`;
+                    <% }) %>
+                <% } %>
+            }
+        }
+
+        // ========== 11. COMPTEUR DESCRIPTION ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const description = document.getElementById('description');
+            if (description) {
+                description.addEventListener('input', function() {
+                    const counter = document.getElementById('descriptionCounter');
+                    const length = this.value.length;
+                    counter.textContent = `${length}/500`;
+                });
+                const event = new Event('input');
+                description.dispatchEvent(event);
+            }
+            
+            updateImageCounters();
+            handleStyleChange();
+            handleColorChange();
+            handleAdditionalColorChange(1);
+            handleAdditionalColorChange(2);
+            
+            <% if (success) { %>
+                showNotification('<%= success %>', 'success');
+            <% } %>
+        });
+
+        // ========== 12. NOTIFICATIONS ==========
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.style.display = 'none', 300);
+            }, 3000);
+        }
+
+        // ========== 13. SUPPRESSION PRODUIT ==========
+        async function confirmDelete() {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
+            
+            try {
+                const productId = '<%= product._id %>';
+                showNotification('Suppression en cours...', 'info');
+                
+                const response = await fetch(`/api/products/${productId}`, { method: 'DELETE' });
+                
+                if (!response.ok) throw new Error('Erreur lors de la suppression');
+                
+                showNotification('Produit supprimé avec succès', 'success');
+                setTimeout(() => window.location.href = '/dashboard', 1000);
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
+        }
+
+        // ========== 14. VALIDATION FORMULAIRE ==========
+        let formSubmitted = false;
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            if (formSubmitted) {
+                e.preventDefault();
+                return;
+            }
+            
+            const name = document.getElementById('name').value.trim();
+            const price = document.getElementById('price').value;
+            const city = document.getElementById('city').value;
+            const category = document.getElementById('category').value;
+            const bigcategory = document.getElementById('bigcategory').value;
+            const smallcategory = document.getElementById('smallcategory').value;
+            const color = document.getElementById('color').value;
+            const size = document.getElementById('size').value;
+            
+            if (!name || !price || !city || !category || !bigcategory || !smallcategory || !color || !size) {
+                e.preventDefault();
+                showNotification('Veuillez remplir tous les champs obligatoires (*)', 'error');
+                return;
+            }
+            
+            if (parseFloat(price) <= 0) {
+                e.preventDefault();
+                showNotification('Le prix doit être supérieur à 0', 'error');
+                return;
+            }
+            
+            const mainImagesCount = document.querySelectorAll('#mainImagesGrid .slot-image').length;
+            if (mainImagesCount === 0) {
+                e.preventDefault();
+                showNotification('Au moins une image principale est requise', 'error');
+                return;
+            }
+            
+            formSubmitted = true;
+            showNotification('Enregistrement des modifications...', 'info');
+        });
+    </script>
+</body>
+</html>
