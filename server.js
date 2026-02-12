@@ -1159,21 +1159,40 @@ app.get('/api/product/:id', async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+
+const mainStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'products/main',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
+    transformation: [{ width: 800, height: 800, crop: 'limit' }]
   }
 });
 
 
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, 
+const colorStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'products/colors',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
+    transformation: [{ width: 800, height: 800, crop: 'limit' }]
+  }
+});
+
+
+const uploadMain = multer({
+  storage: mainStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -1188,30 +1207,43 @@ const upload = multer({
 });
 
 
-const uploadFields = upload.fields([
-  
+const uploadColor = multer({
+  storage: colorStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Seules les images sont autorisées'));
+    }
+  }
+});
+
+
+const uploadFields = uploadMain.fields([
   { name: 'mainImage1', maxCount: 1 },
   { name: 'mainImage2', maxCount: 1 },
   { name: 'mainImage3', maxCount: 1 },
-  
-  
   { name: 'color0Image1', maxCount: 1 },
   { name: 'color0Image2', maxCount: 1 },
   { name: 'color0Image3', maxCount: 1 },
   { name: 'color1Image1', maxCount: 1 },
   { name: 'color1Image2', maxCount: 1 },
   { name: 'color1Image3', maxCount: 1 },
-  
-  
   { name: 'additionalColor1Image1', maxCount: 1 },
   { name: 'additionalColor1Image2', maxCount: 1 },
   { name: 'additionalColor1Image3', maxCount: 1 },
-  
-  
   { name: 'additionalColor2Image1', maxCount: 1 },
   { name: 'additionalColor2Image2', maxCount: 1 },
   { name: 'additionalColor2Image3', maxCount: 1 }
 ]);
+
+
+
 
 mongoose.connect(process.env.MONGODB_URI ,{
   useNewUrlParser: true,
@@ -1519,54 +1551,53 @@ app.post('/add-product', requireAuth, uploadFields, async (req, res) => {
     if (!req.body.size) {
       throw new Error('La taille du produit est obligatoire');
     }
+    
     let finalStyle = req.body.style;
     if (req.body.style === 'autre' && req.body.styleOther) {
       finalStyle = req.body.styleOther;
     }
 
-    
     let finalColor = req.body.color;
     if (req.body.color === 'autre' && req.body.colorCustom) {
       finalColor = req.body.colorCustom;
     }
 
-    
+    // 🟢 معالجة الصور الرئيسية - Cloudinary
     const mainImages = [];
     if (req.files['mainImage1']) {
-      mainImages.push('/uploads/' + req.files['mainImage1'][0].filename);
+      mainImages.push(req.files['mainImage1'][0].path); // رابط Cloudinary
     }
     if (req.files['mainImage2']) {
-      mainImages.push('/uploads/' + req.files['mainImage2'][0].filename);
+      mainImages.push(req.files['mainImage2'][0].path); // رابط Cloudinary
     }
     if (req.files['mainImage3']) {
-      mainImages.push('/uploads/' + req.files['mainImage3'][0].filename);
+      mainImages.push(req.files['mainImage3'][0].path); // رابط Cloudinary
     }
 
-    
     if (mainImages.length === 0) {
       throw new Error('Veuillez télécharger au moins une image principale');
     }
 
-    
+    // 🟢 معالجة الألوان الإضافية - Cloudinary
     const hasAdditionalColors = req.body.hasAdditionalColors === 'yes';
     const additionalColors = [];
     let totalImages = mainImages.length;
 
     if (hasAdditionalColors) {
-      
+      // Color 1
       if (req.body.additionalColor1) {
         const color1Images = [];
         
         if (req.files['additionalColor1Image1']) {
-          color1Images.push('/uploads/' + req.files['additionalColor1Image1'][0].filename);
+          color1Images.push(req.files['additionalColor1Image1'][0].path);
           totalImages++;
         }
         if (req.files['additionalColor1Image2']) {
-          color1Images.push('/uploads/' + req.files['additionalColor1Image2'][0].filename);
+          color1Images.push(req.files['additionalColor1Image2'][0].path);
           totalImages++;
         }
         if (req.files['additionalColor1Image3']) {
-          color1Images.push('/uploads/' + req.files['additionalColor1Image3'][0].filename);
+          color1Images.push(req.files['additionalColor1Image3'][0].path);
           totalImages++;
         }
 
@@ -1583,20 +1614,20 @@ app.post('/add-product', requireAuth, uploadFields, async (req, res) => {
         }
       }
 
-      
+      // Color 2
       if (req.body.additionalColor2) {
         const color2Images = [];
         
         if (req.files['additionalColor2Image1']) {
-          color2Images.push('/uploads/' + req.files['additionalColor2Image1'][0].filename);
+          color2Images.push(req.files['additionalColor2Image1'][0].path);
           totalImages++;
         }
         if (req.files['additionalColor2Image2']) {
-          color2Images.push('/uploads/' + req.files['additionalColor2Image2'][0].filename);
+          color2Images.push(req.files['additionalColor2Image2'][0].path);
           totalImages++;
         }
         if (req.files['additionalColor2Image3']) {
-          color2Images.push('/uploads/' + req.files['additionalColor2Image3'][0].filename);
+          color2Images.push(req.files['additionalColor2Image3'][0].path);
           totalImages++;
         }
 
@@ -1614,16 +1645,15 @@ app.post('/add-product', requireAuth, uploadFields, async (req, res) => {
       }
     }
 
-    
     if (totalImages > 9) {
       throw new Error(`Maximum 9 images autorisées. Vous avez ${totalImages} images.`);
     }
 
-    
+    // 🟢 إنشاء المنتج
     const product = new Product({
       city: req.body.city,
       description: req.body.description,
-       size: req.body.size,
+      size: req.body.size,
       sale: req.body.sale === 'true',
       price: parseFloat(req.body.price),
       style: finalStyle,
@@ -1631,18 +1661,15 @@ app.post('/add-product', requireAuth, uploadFields, async (req, res) => {
       category: req.body.category,
       bigcategory: req.body.bigcategory,
       smallcategory: req.body.smallcategory,
-     mainImages:mainImages, 
       name: req.body.name,
       vendeur: user.storeName,
       userId: req.session.userId,
       status: 'pending',
-      
-      
       colorCustom: req.body.color === 'autre' ? req.body.colorCustom : null,
       styleOther: req.body.style === 'autre' ? req.body.styleOther : null,
       hasAdditionalColors: hasAdditionalColors,
       additionalColors: additionalColors,
-      mainImages: mainImages,
+      mainImages: mainImages, // روابط Cloudinary
       totalImages: totalImages
     });
 
@@ -1650,27 +1677,14 @@ app.post('/add-product', requireAuth, uploadFields, async (req, res) => {
     res.redirect('/dashboard');
     
   } catch (err) {
-    console.error('❌ Erreur ajout produit:', err);
-    
-    
-    if (req.files) {
-      Object.values(req.files).forEach(fileArray => {
-        if (fileArray && fileArray[0]) {
-          try {
-            fs.unlinkSync(fileArray[0].path);
-          } catch (unlinkErr) {
-            console.error('Erreur suppression image:', unlinkErr);
-          }
-        }
-      });
-    }
+    console.error('❌ Erreur ajout produit:', err.message); // ✅ استخدم err.message
     
     const user = await User.findOne({ userId: req.session.userId });
     res.render('add-product', {
       user: user,
       moroccanCities: moroccanCities,
       categories: categories,
-      error: err.message || 'Erreur lors de l\'ajout du produit'
+      error: err.message || 'Erreur lors de l\'ajout du produit' // ✅ err.message
     });
   }
 });
@@ -2202,7 +2216,12 @@ app.get('/api/products/:id', requireAuth, async (req, res) => {
   }
 });
 
-app.put('/api/products/:id', requireAuth, upload.single('image'), async (req, res) => {
+// 🟢 استخدم uploadMain بدلاً من upload.single
+app.put('/api/products/:id', requireAuth, uploadMain.fields([
+  { name: 'mainImage1', maxCount: 1 },
+  { name: 'mainImage2', maxCount: 1 },
+  { name: 'mainImage3', maxCount: 1 }
+]), async (req, res) => {
   try {
     const productId = req.params.id;
     const userId = req.session.userId;
@@ -2219,6 +2238,7 @@ app.put('/api/products/:id', requireAuth, upload.single('image'), async (req, re
       });
     }
 
+    // 🟢 تحضير بيانات التحديث
     const updateData = {
       name: req.body.name || existingProduct.name,
       price: req.body.price ? parseFloat(req.body.price) : existingProduct.price,
@@ -2233,20 +2253,23 @@ app.put('/api/products/:id', requireAuth, upload.single('image'), async (req, re
       updatedAt: Date.now()
     };
 
-    if (req.file) {
-      updateData.mainImages[0] = '/uploads/' + req.file.filename;
-
-      const fs = require('fs');
-      const path = require('path');
-      const oldImagePath = path.join(__dirname, existingProduct.mainImages[0]);
-
-      if (existingProduct.mainImages[0] !== '/uploads/default-product.jpg' &&
-        fs.existsSync(oldImagePath)) {
-        fs.unlink(oldImagePath, (err) => {
-          if (err) console.error('❌ Erreur suppression ancienne image:', err);
-        });
+    // 🟢 معالجة الصور الجديدة - Cloudinary
+    if (req.files && Object.keys(req.files).length > 0) {
+      const newMainImages = [...existingProduct.mainImages];
+      
+      // تحديث الصور الموجودة
+      for (let i = 1; i <= 3; i++) {
+        if (req.files[`mainImage${i}`]) {
+          newMainImages[i-1] = req.files[`mainImage${i}`][0].path; // رابط Cloudinary
+        }
       }
+      
+      // تصفية الصور الفارغة
+      updateData.mainImages = newMainImages.filter(img => img && img !== '');
     }
+
+    // 🟢 لا تحذف الصور - Cloudinary يديرها تلقائياً
+    // (يمكنك حذفها من Cloudinary Dashboard إذا أردت)
 
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -2412,7 +2435,7 @@ app.get('/edit-product/:id', requireAuth, async (req, res) => {
 });
 
 
-// ========== ROUTE POST POUR MODIFIER LE PRODUIT ==========
+
 app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
   try {
     const productId = req.params.id;
@@ -2436,54 +2459,48 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
       });
     }
 
-    // ✅ معالجة الصور الرئيسية - مع الحذف الكامل للصور الفارغة
+    // ========== معالجة الصور الرئيسية ==========
     const mainImages = [];
     
     for (let i = 1; i <= 3; i++) {
-      // 1. إذا تم رفع صورة جديدة
+      // 1. صورة جديدة مرفوعة
       if (req.files && req.files[`mainImage${i}`]) {
-        mainImages.push('/uploads/' + req.files[`mainImage${i}`][0].filename);
+        mainImages.push(req.files[`mainImage${i}`][0].path); // رابط Cloudinary
       } 
-      // 2. إذا كانت هناك صورة موجودة في قاعدة البيانات ولم يتم حذفها
+      // 2. صورة موجودة مسبقاً
       else if (existingProduct.mainImages && existingProduct.mainImages[i-1]) {
-        // نتحقق إذا كان المستخدم قد أرسل hidden input يحوي قيمة الصورة
         const existingImageValue = req.body[`existingMainImages${i-1}`];
-        
         if (existingImageValue) {
           mainImages.push(existingImageValue);
         } else {
-          // إذا لم تكن هناك قيمة، يعني أن المستخدم حذف الصورة
-          mainImages.push(null);
+          mainImages.push(null); // تم حذف الصورة
         }
       } else {
-        // 3. لا توجد صورة نهائياً
-        mainImages.push(null);
+        mainImages.push(null); // لا توجد صورة
       }
     }
 
-    // ✅ تصفية الصور - حذف null و undefined
+    // تصفية الصور - إزالة null و undefined
     const filteredMainImages = mainImages.filter(img => img !== null && img !== undefined);
 
-    // ✅ معالجة الألوان الإضافية الموجودة
+    // ========== معالجة الألوان الإضافية الموجودة ==========
     const additionalColors = [];
     
-    // معالجة الألوان الموجودة في قاعدة البيانات
     if (existingProduct.additionalColors && existingProduct.additionalColors.length > 0) {
-      existingProduct.additionalColors.forEach((color, colorIndex) => {
+      for (let colorIndex = 0; colorIndex < existingProduct.additionalColors.length; colorIndex++) {
+        const color = existingProduct.additionalColors[colorIndex];
         const colorImages = [];
         let hasAnyImage = false;
         
         for (let i = 1; i <= 3; i++) {
-          // 1. إذا تم رفع صورة جديدة
+          // 1. صورة جديدة مرفوعة
           if (req.files && req.files[`color${colorIndex}Image${i}`]) {
-            colorImages.push('/uploads/' + req.files[`color${colorIndex}Image${i}`][0].filename);
+            colorImages.push(req.files[`color${colorIndex}Image${i}`][0].path); // رابط Cloudinary
             hasAnyImage = true;
           } 
-          // 2. إذا كانت هناك صورة موجودة في قاعدة البيانات
+          // 2. صورة موجودة مسبقاً
           else if (color.images && color.images[i-1]) {
-            // نتحقق من وجود hidden input
             const existingImageValue = req.body[`existingColor${colorIndex}Image${i}`];
-            
             if (existingImageValue) {
               colorImages.push(existingImageValue);
               hasAnyImage = true;
@@ -2495,7 +2512,7 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
           }
         }
 
-        // ✅ فقط نضيف اللون إذا كان له على الأقل صورة واحدة
+        // إضافة اللون فقط إذا كان لديه صورة واحدة على الأقل
         if (hasAnyImage) {
           additionalColors.push({
             color: color.color,
@@ -2503,20 +2520,19 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
             images: colorImages.filter(img => img !== null && img !== undefined)
           });
         }
-      });
+      }
     }
 
-    // ✅ معالجة الألوان الجديدة
-    // Nouvelle couleur 1
+    // ========== إضافة ألوان جديدة ==========
+    // اللون الإضافي الأول
     if (req.body.additionalColor1 && req.body.additionalColor1 !== '') {
       const color1Images = [];
       for (let i = 1; i <= 3; i++) {
         if (req.files && req.files[`additionalColor1Image${i}`]) {
-          color1Images.push('/uploads/' + req.files[`additionalColor1Image${i}`][0].filename);
+          color1Images.push(req.files[`additionalColor1Image${i}`][0].path); // رابط Cloudinary
         }
       }
       
-      // ✅ فقط نضيف اللون إذا كان له على الأقل صورة واحدة
       if (color1Images.length > 0) {
         additionalColors.push({
           color: req.body.additionalColor1 === 'autre' ? req.body.additionalColorCustom1 : req.body.additionalColor1,
@@ -2526,12 +2542,12 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
       }
     }
 
-    // Nouvelle couleur 2
+    // اللون الإضافي الثاني
     if (req.body.additionalColor2 && req.body.additionalColor2 !== '') {
       const color2Images = [];
       for (let i = 1; i <= 3; i++) {
         if (req.files && req.files[`additionalColor2Image${i}`]) {
-          color2Images.push('/uploads/' + req.files[`additionalColor2Image${i}`][0].filename);
+          color2Images.push(req.files[`additionalColor2Image${i}`][0].path); // رابط Cloudinary
         }
       }
       
@@ -2544,14 +2560,24 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
       }
     }
 
-    // ✅ تحديث البيانات
+    // ========== تحضير بيانات التحديث ==========
+    let finalStyle = req.body.style;
+    if (req.body.style === 'autre' && req.body.styleOther) {
+      finalStyle = req.body.styleOther;
+    }
+
+    let finalColor = req.body.color;
+    if (req.body.color === 'autre' && req.body.colorCustom) {
+      finalColor = req.body.colorCustom;
+    }
+
     const updateData = {
       name: req.body.name,
       price: parseFloat(req.body.price),
       city: req.body.city,
       category: req.body.category,
-      style: req.body.style === 'autre' ? req.body.styleOther : req.body.style,
-      color: req.body.color === 'autre' ? req.body.colorCustom : req.body.color,
+      style: finalStyle,
+      color: finalColor,
       size: req.body.size,
       sale: req.body.sale === 'true',
       bigcategory: req.body.bigcategory,
@@ -2561,17 +2587,20 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
       styleOther: req.body.style === 'autre' ? req.body.styleOther : null,
       hasAdditionalColors: additionalColors.length > 0,
       additionalColors: additionalColors,
-      mainImages: filteredMainImages, // ✅ فقط الصور الموجودة
+      mainImages: filteredMainImages,
       totalImages: filteredMainImages.length + additionalColors.reduce((sum, color) => sum + color.images.length, 0),
       updatedAt: Date.now(),
       status: 'pending'
     };
 
+    // ========== تحديث المنتج ==========
     await Product.findByIdAndUpdate(productId, updateData);
 
+    // ========== جلب المنتج المحدث ==========
     const updatedProduct = await Product.findById(productId);
     const user = await User.findOne({ userId: userId });
 
+    // ========== عرض الصفحة مع رسالة النجاح ==========
     res.render('edit-product', {
       product: updatedProduct,
       user: user,
@@ -2579,12 +2608,13 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
       categories: categories,
       storeName: req.session.storeName,
       error: null,
-      success: 'Produit mis à jour avec succès!'
+      success: '✅ Produit mis à jour avec succès!'
     });
 
   } catch (error) {
-    console.error('❌ Erreur mise à jour produit (POST):', error);
+    console.error('❌ Erreur mise à jour produit:', error.message);
 
+    // ========== في حالة الخطأ ==========
     const user = await User.findOne({ userId: req.session.userId });
     const product = await Product.findById(req.params.id);
 
@@ -2594,7 +2624,7 @@ app.post('/edit-product/:id', requireAuth, uploadFields, async (req, res) => {
       moroccanCities: moroccanCities,
       categories: categories,
       storeName: req.session.storeName,
-      error: 'Erreur lors de la mise à jour du produit',
+      error: error.message || 'Erreur lors de la mise à jour du produit',
       success: null
     });
   }
