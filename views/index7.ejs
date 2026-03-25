@@ -895,6 +895,7 @@ Si vous vous rendez dans un magasin et ne trouvez pas l’article recherché ou 
   <h3> Produit : <%= arr.name %></h3>
   <p><strong>Description :</strong> <%= arr.description %></p>
   <p><strong>Prix :</strong> <%= arr.price %> MAD</p>
+   <p ><strong>nom de produit:</strong> <span id="selectedSizeLabel"> <%= arr.size %></span></p>
 
   <hr style="margin: 15px 0;">
 
@@ -910,7 +911,7 @@ Si vous vous rendez dans un magasin et ne trouvez pas l’article recherché ou 
       <h1 class="nom-magasin"><span> Magasin:</span> <%= user.storeName %>, <%= user.storeLocation %></h1>
       <p class="price">À partir de <%= arr.price %> DH</p>
       <p><strong>Couleur:</strong> <span id="selectedColorLabel"><%= arr.color %></span></p>
-     <!-- في جزء color-picker من الصفحة -->
+ 
 <div class="color-picker">
     <img src="<%= arr.mainImages[0] %>" 
          onclick="selectColor('<%= arr.color %>')" 
@@ -928,8 +929,8 @@ Si vous vous rendez dans un magasin et ne trouvez pas l’article recherché ou 
         <% }) %>
     <% } %>
 </div>
-
-      <p style="margin-top: 2vh;"><strong>Taille:</strong> <span id="selectedSizeLabel"><%= arr.name %> <%= arr.size %></span></p>
+<p style="margin-top: 2vh;"><strong>Taille:</strong> <span id="selectedSizeLabel"> <%= arr.size %></span></p>
+     
       <div class="actions">
         <p><span>Livraison</span>:<% if (user.deliveryArea === 'toute_maroc') { %>
          Livraison dans tout le Maroc
