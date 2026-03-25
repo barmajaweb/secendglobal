@@ -28,6 +28,22 @@ app.get('/', async (req, res) => {
     });
   }
 });
+app.get("/tous-products.html", async (req, res) => {
+  try {
+    const latestProducts = await Product.find({
+      status: "approved"
+    })
+
+    res.render('tous-products', {
+      latestProducts: latestProducts
+    });
+  } catch (error) {
+    console.error('Error fetching latest products:', error);
+    res.render('tous-products', {
+      latestProducts: []
+    });
+  }
+});
 app.get("/index.html", async (req, res) => {
   try {
     const latestProducts = await Product.find({
